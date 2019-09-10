@@ -1,6 +1,6 @@
 /*****************
 
-Project:
+Project: Exercise 0
 Author: Raúl Oropeza
 Description: This is my spiritual self-portrait
 
