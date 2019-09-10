@@ -2,7 +2,7 @@
 
 Project:
 Author: Raúl Oropeza
-Description:
+Description: This is my spiritual self-portrait
 
 ******************/
 
