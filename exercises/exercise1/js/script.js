@@ -23,6 +23,12 @@ let rectY;
 let rectWidth = 20;
 let rectHeight = 40;
 
+//R* The current position and size of John Lennon
+let johnImg;
+let johnX;
+let johnY;
+let johnSize;
+
 // preload()
 //
 // Nothing here
@@ -56,8 +62,16 @@ function setup() {
   rectX = -rectWidth/2;
   rectY = height/2;
 
+
+  //*R Set the file path for John's head
+  johnImg = loadImage("assets/images/john.png");
+  //*R Set the size for John
+  johnSize = 80;
+
   // We'll draw rectangles from the center
   rectMode(CENTER);
+  //*R We'll draw images from the center
+  imageMode(CENTER);
   // We won't have a stroke in this
   noStroke();
 }
@@ -93,4 +107,12 @@ function draw() {
   fill(0, 10);
   //R* Display the rectangle
   rect(rectX, rectY, rectWidth, rectHeight);
+
+  //R* Fool John into thinking that the cursor is Yoko
+  johnX = mouseX;
+  johnY = mouseY;
+  //R* Make John look like a ghost
+  tint(0, 255, 255, 10);
+  //R* Add John Lennon to the matrix
+  image(johnImg, johnX, johnY, johnSize);
 }
