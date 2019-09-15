@@ -5,6 +5,8 @@
 // Draws a moving square and circle that intersect
 // in the middle of the canvas.
 
+//*R Comments made by me (Raúl) will start with "*R", just like this one.
+
 // The current position and size of the circle
 let circleX;
 let circleY;
@@ -15,6 +17,11 @@ let squareX;
 let squareY;
 let squareSize = 100;
 
+//*R The current position and size of the yellow rectangle
+let rectX;
+let rectY;
+let rectWidth = 20;
+let rectHeight = 40;
 
 // preload()
 //
@@ -42,6 +49,12 @@ function setup() {
   // We divide the size by two because we're drawing from the center
   squareX = width + squareSize/2;
   squareY = height + squareSize/2;
+
+  //*R Start the rectangle off the left side of the canvas
+  //*R The negative width divided by two is to make sure it's first drawn outside the canvas
+  //*R We divide the height by 2 to start drawing in the middle of the canvas
+  rectX = -rectWidth/2;
+  rectY = height/2;
 
   // We'll draw rectangles from the center
   rectMode(CENTER);
@@ -73,4 +86,11 @@ function draw() {
   fill(0,0,255,10);
   // Display the square
   rect(squareX,squareY,squareSize,squareSize);
+
+  //R* Move the rectangle to the right
+  rectX++;
+  //R* I see a rectangle and I want it painted black ♪♪♪
+  fill(0, 50);
+  //R* Display the rectangle
+  rect(rectX, rectY, rectWidth, rectHeight);
 }
