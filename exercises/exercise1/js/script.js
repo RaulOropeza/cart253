@@ -29,6 +29,12 @@ let johnX;
 let johnY;
 let johnSize;
 
+//R* The current position of the prism
+//R* Size is not needed here, I want to use its original size
+let prismImg;
+let prismX;
+let prismY;
+
 // preload()
 //
 // Nothing here
@@ -67,6 +73,14 @@ function setup() {
   johnImg = loadImage("assets/images/john.png");
   //*R Set the size for John
   johnSize = 80;
+
+  //*R Set the file path for the prism
+  prismImg = loadImage("assets/images/prism.png");
+  //*R Start the prism at the top of the canvas
+  //*R We divide the width by 2 to start drawing in the center of the canvas
+  //*R I'm using the negative value of the images height divided by 2 to start it off the canvas
+  prismX = width/2;
+  prismY = -prismImg.height/2;
 
   // We'll draw rectangles from the center
   rectMode(CENTER);
@@ -115,4 +129,11 @@ function draw() {
   tint(0, 255, 255, 10);
   //R* Add John Lennon to the matrix
   image(johnImg, johnX, johnY, johnSize);
+
+  //R* Reset the tint
+  tint(255);
+  //R* Move the prism towards the bottom
+  prismY++;
+  //R* Draw the prism
+  image(prismImg, prismX, prismY);
 }
