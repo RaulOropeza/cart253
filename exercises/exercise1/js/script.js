@@ -90,7 +90,7 @@ function draw() {
   //R* Move the rectangle to the right
   rectX++;
   //R* I see a rectangle and I want it painted black ♪♪♪
-  fill(0, 50);
+  fill(0, 10);
   //R* Display the rectangle
   rect(rectX, rectY, rectWidth, rectHeight);
 }
