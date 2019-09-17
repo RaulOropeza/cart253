@@ -26,6 +26,10 @@ let enemySize = 50;
 let enemySpeed = 5;
 let enemyVX = 5;
 
+// The amount the enemy increases its size and speed on every dodge
+let enemySizeIncrease = 2;
+let enemySpeedIncrease = 0.2;
+
 // How many dodges the player has made
 let dodges = 0;
 
@@ -98,6 +102,9 @@ function draw() {
     // Reset the enemy's position
     enemyX = 0;
     enemyY = random(0,height);
+    // Reset the size and speed of the enemy
+    enemySize = 50;
+    enemySpeed = 5;
     // Reset the avatar's position
     avatarX = width/2;
     avatarY = height/2;
@@ -111,6 +118,9 @@ function draw() {
     console.log("YOU LOSE!");
     enemyX = 0;
     enemyY = random(0,height);
+    // Reset the size and speed of the enemy
+    enemySize = 50;
+    enemySpeed = 5;
     avatarX = width/2;
     avatarY = height/2;
     dodges = 0;
@@ -125,6 +135,12 @@ function draw() {
     // Reset the enemy's position to the left at a random height
     enemyX = 0;
     enemyY = random(0,height);
+
+    // Increase the size and speed of the enemy
+    enemySize+= enemySizeIncrease;
+    enemySpeed+= enemySpeedIncrease;
+    console.log("The current size of the enemy is: " + enemySize);
+    console.log("The current speed of the enemy is: " + enemySpeed);
   }
 
   // Display the number of successful dodges in the console
