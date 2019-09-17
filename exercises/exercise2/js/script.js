@@ -140,4 +140,9 @@ function draw() {
   // Draw the enemy as a circle
   ellipse(enemyX,enemyY,enemySize,enemySize);
 
+  // Display the score
+  textSize(30);
+  fill(255, 150, 0);
+  textFont("Impact");
+  text(dodges, 10, 30);
 }
