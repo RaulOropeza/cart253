@@ -7,17 +7,19 @@ A simple dodging game with keyboard controls
 
 ******************************************************/
 
-// The position and size of our avatar circle
+// The position, size and image of our avatar
+let avatarImg;
 let avatarX;
 let avatarY;
-let avatarSize = 50;
+let avatarSize = 80;
 
 // The speed and velocity of our avatar circle
 let avatarSpeed = 10;
 let avatarVX = 0;
 let avatarVY = 0;
 
-// The position and size of the enemy circle
+// The position, size and image of the enemy
+let enemyImg;
 let enemyX;
 let enemyY;
 let enemySize = 50;
@@ -40,10 +42,16 @@ function setup() {
   // Create our playing area
   createCanvas(500,500);
 
+  // Set a file for the avatar image
+  avatarImg = loadImage('assets/images/death_star.png');
+
   // Put the avatar in the centre
   avatarX = width/2;
   avatarY = height/2;
+  imageMode(CENTER);
 
+  // Set a file for the enemy image
+  enemyImg = loadImage('assets/images/x-wing.gif');
   // Put the enemy to the left at a random y coordinate within the canvas
   enemyX = 0;
   enemyY = random(0,height);
@@ -148,13 +156,13 @@ function draw() {
 
   // The player is black
   fill(0);
-  // Draw the player as a circle
-  ellipse(avatarX,avatarY,avatarSize,avatarSize);
+  // Draw the player as the Death Star
+  image(avatarImg, avatarX,avatarY,avatarSize,avatarSize);
 
   // The enemy is red
   fill(255,0,0);
   // Draw the enemy as a circle
-  ellipse(enemyX,enemyY,enemySize,enemySize);
+  image(enemyImg, enemyX,enemyY,enemySize,enemySize);
 
   // Display the score
   textSize(30);
