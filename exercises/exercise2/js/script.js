@@ -24,6 +24,13 @@ let enemyX;
 let enemyY;
 let enemySize = 50;
 
+// The size and image of the alternate enemy
+let enemyAltImg;
+let enemyAltSize;
+
+// The size of the alt enemy in relation of the normal enemy
+let enemyAltProportion = 1.3;
+
 // The speed and velocity of our enemy circle
 let enemySpeed = 5;
 let enemyVX = 5;
@@ -55,8 +62,12 @@ function setup() {
   avatarY = height/2;
   imageMode(CENTER);
 
-  // Set a file for the enemy image
+  // Set a file for the enemy
   enemyImg = loadImage('assets/images/x-wing.gif');
+
+  // Set the file for the alternate enemy
+  enemyAltImg = loadImage('assets/images/y-wing.png');
+
   // Put the enemy to the left at a random y coordinate within the canvas
   enemyX = 0;
   enemyY = random(0,height);
@@ -164,10 +175,15 @@ function draw() {
   // Draw the player as the Death Star
   image(avatarImg, avatarX,avatarY,avatarSize,avatarSize);
 
-  // The enemy is red
-  fill(255,0,0);
-  // Draw the enemy as a circle
-  image(enemyImg, enemyX,enemyY,enemySize,enemySize);
+  // Every 5 successful dodges make a big Y-Wing will appear
+  if(dodges % 5 === 0 && dodges != 0){
+    enemyAltSize = enemySize * enemyAltProportion;
+    // Draw the enemy as a Y-Wing
+    image(enemyAltImg, enemyX,enemyY,enemyAltSize, enemyAltSize);
+  }else {
+    // Draw the enemy as an X-Wing
+    image(enemyImg, enemyX,enemyY,enemySize,enemySize);
+  }
 
   // Display the score
   textSize(30);
