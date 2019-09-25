@@ -35,12 +35,17 @@ let enemySpeedIncrease = 0.2;
 // How many dodges the player has made
 let dodges = 0;
 
+// The image for the background
+let bgImg;
+
 // setup()
 //
 // Make the canvas, position the avatar and anemy
 function setup() {
   // Create our playing area
   createCanvas(500,500);
+
+  bgImg = loadImage('assets/images/space_bg.jpg');
 
   // Set a file for the avatar image
   avatarImg = loadImage('assets/images/death_star.png');
@@ -65,8 +70,8 @@ function setup() {
 // Handle moving the avatar and enemy and checking for dodges and
 // game over situations.
 function draw() {
-  // A pink background
-  background(255,220,220);
+  // An outer space background
+  image(bgImg, width/2, height/2);
 
   // Default the avatar's velocity to 0 in case no key is pressed this frame
   avatarVX = 0;
@@ -166,7 +171,7 @@ function draw() {
 
   // Display the score
   textSize(30);
-  fill(255, 150, 0);
+  fill(255, 230, 0);
   textFont("Impact");
   text(dodges, 10, 30);
 }
