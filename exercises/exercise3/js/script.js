@@ -62,6 +62,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   background("#ffff00");
   imageMode(CENTER);
+  rectMode(CENTER);
 
   // Use a for loop to draw as many decoys as we need
   for (let i = 0; i < numDecoys; i++) {
@@ -129,6 +130,12 @@ function draw() {
     strokeWeight(10);
     ellipse(targetX, targetY, targetImage.width, targetImage.height);
   }
+
+  // Show the reference image
+  fill(255, 50, 50);
+  noStroke();
+  rect(width - targetImage.width / 2, targetImage.height / 2, targetImage.width, targetImage.height);
+  image(targetImage, width - targetImage.width / 2, targetImage.height / 2);
 }
 
 // mousePressed()
