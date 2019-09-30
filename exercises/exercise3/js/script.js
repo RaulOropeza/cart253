@@ -36,6 +36,11 @@ let numDecoys = 100;
 // Keep track of whether they've won
 let gameOver = false;
 
+// Speed and velocity of the target when found
+let targetSpeed = 5;
+let targetVx;
+let targetVy;
+
 // preload()
 //
 // Loads the target and decoy images before the program starts
@@ -134,8 +139,14 @@ function draw() {
   // Show the reference image
   fill(255, 50, 50);
   noStroke();
-  rect(width - targetImage.width / 2, targetImage.height / 2, targetImage.width, targetImage.height);
-  image(targetImage, width - targetImage.width / 2, targetImage.height / 2);
+  rect(width - targetImage.width / 2, targetImage.height / 2 + 10, targetImage.width, targetImage.height);
+  image(targetImage, width - targetImage.width / 2, targetImage.height / 2, random(targetImage.width - (targetImage.width * 0.7), targetImage.width), random(targetImage.height - (targetImage.height * 0.7), targetImage.height));
+
+  // Caption of the image
+  textAlign(CENTER, CENTER);
+  textSize(24);
+  fill(255);
+  text("pls help :(", width - targetImage.width/2, targetImage.height * 0.95);
 }
 
 // mousePressed()
