@@ -108,7 +108,8 @@ function setup() {
   targetY = random(0, height);
 
   // And draw it (because it's the last thing drawn, it will always be on top)
-  image(targetImage, targetX, targetY);
+  // We multiply by a number smaller than 1 to make the image smaller so it's more difficult to find
+  image(targetImage, targetX, targetY, targetImage.width * 0.5, targetImage.height * 0.5);
 }
 
 
