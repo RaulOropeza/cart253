@@ -38,8 +38,8 @@ let gameOver = false;
 
 // Speed and velocity of the target when found
 let targetSpeed = 5;
-let targetVx;
-let targetVy;
+let targetVx = 0;
+let targetVy = 0;
 
 // preload()
 //
@@ -130,10 +130,19 @@ function draw() {
 
     // Draw a circle around the sausage dog to show where it is (even though
     // they already know because they found it!)
-    noFill();
+    fill(255);
     stroke(random(255));
     strokeWeight(10);
+    // Add movement to the target when found
+    targetVx = targetSpeed;
+
+    targetX += targetVx;
+    targetY += targetVy;
     ellipse(targetX, targetY, targetImage.width, targetImage.height);
+    image(targetImage, targetX, targetY, random(targetImage.width - (targetImage.width * 0.7), targetImage.width), random(targetImage.height - (targetImage.height * 0.7), targetImage.height));
+    textSize(20);
+    fill(0);
+    text("I hate you!", targetX, targetY + 50);
   }
 
   // Show the reference image
@@ -146,7 +155,7 @@ function draw() {
   textAlign(CENTER, CENTER);
   textSize(24);
   fill(255);
-  text("pls help :(", width - targetImage.width/2, targetImage.height * 0.95);
+  text("pls help :(", width - targetImage.width / 2, targetImage.height * 0.95);
 }
 
 // mousePressed()
