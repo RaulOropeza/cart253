@@ -35,18 +35,10 @@ let targetVy = 0;
 //
 // Loads the target and decoy images before the program starts
 function preload() {
-  decoyImage[0] = loadImage("assets/images/animals-11.png");
-
-  decoyImage[1] = loadImage("assets/images/animals-01.png");
-  decoyImage[2] = loadImage("assets/images/animals-02.png");
-  decoyImage[3] = loadImage("assets/images/animals-03.png");
-  decoyImage[4] = loadImage("assets/images/animals-04.png");
-  decoyImage[5] = loadImage("assets/images/animals-05.png");
-  decoyImage[6] = loadImage("assets/images/animals-06.png");
-  decoyImage[7] = loadImage("assets/images/animals-07.png");
-  decoyImage[8] = loadImage("assets/images/animals-08.png");
-  decoyImage[9] = loadImage("assets/images/animals-09.png");
-  decoyImage[10] = loadImage("assets/images/animals-10.png");
+  // We call all the images at once into the array, like the pros
+  for(let i = 0; i < 11; i++){
+    decoyImage[i] = loadImage("assets/images/animals-" + nf(i, 2, 0) + ".png");
+  }
 }
 
 // setup()
