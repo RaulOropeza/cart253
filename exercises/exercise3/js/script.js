@@ -1,7 +1,7 @@
 "use strict";
 
 /******************************************************************************
-Where's Sausage Dog?
+Where's the animal?
 by Pippin Barr
 
 An algorithmic version of a Where's Wally/Waldo searching game where you
@@ -12,15 +12,16 @@ Animal images from:
 https://creativenerds.co.uk/freebies/80-free-wildlife-icons-the-best-ever-animal-icon-set/
 ******************************************************************************/
 
-// Position and image of the sausage dog we're searching for
+// Position and image of the animal we're searching for
 let targetX;
 let targetY;
+let targetImage;
 
-// The ten decoy images
+// All the images
 let decoyImage = [];
 
 // The number of decoys to show on the screen, randomly
-// chosen from the decoy images
+// chosen from the images array
 let numDecoys = 100;
 
 // Keep track of whether they've won
@@ -39,6 +40,8 @@ function preload() {
   for(let i = 0; i < 11; i++){
     decoyImage[i] = loadImage("assets/images/animals-" + nf(i, 2, 0) + ".png");
   }
+
+  targetImage = random(decoyImage);
 }
 
 // setup()
@@ -54,34 +57,22 @@ function setup() {
   // Use a for loop to draw as many decoys as we need
   for (let i = 0; i < numDecoys; i++) {
     // Choose a random location on the canvas for this decoy
-    let x = random(0, width);
-    let y = random(0, height);
+
     // Generate a random number we can use for probability
     let r = random();
-    // Use the random number to display one of the ten decoy
-    // images, each with a 10% chance of being shown
-    // We'll talk more about this nice quality of random soon enough.
-    // But basically each "if" and "else if" has a 10% chance of being true
-    if (r < 0.1) {
-      image(decoyImage[1], x, y);
-    } else if (r < 0.2) {
-      image(decoyImage[2], x, y);
-    } else if (r < 0.3) {
-      image(decoyImage[3], x, y);
-    } else if (r < 0.4) {
-      image(decoyImage[4], x, y);
-    } else if (r < 0.5) {
-      image(decoyImage[5], x, y);
-    } else if (r < 0.6) {
-      image(decoyImage[6], x, y);
-    } else if (r < 0.7) {
-      image(decoyImage[7], x, y);
-    } else if (r < 0.8) {
-      image(decoyImage[8], x, y);
-    } else if (r < 0.9) {
-      image(decoyImage[9], x, y);
-    } else if (r < 1.0) {
-      image(decoyImage[10], x, y);
+
+    // I'm using h as an independent counter for the probability
+    let h = 1;
+    for(let j = 0; j < 11; j++){
+      // Use the random number to display one of the ten decoy
+      // images, each with a 10% chance of being shown
+      // Compare the current image with the target
+      if(decoyImage[j] != targetImage && r < h / 10){
+        let x = random(0, width);
+        let y = random(0, height);
+        image(decoyImage[j], x, y);
+        h++;
+      }
     }
   }
 
@@ -91,7 +82,7 @@ function setup() {
 
   // And draw it (because it's the last thing drawn, it will always be on top)
   // We multiply by a number smaller than 1 to make the image smaller so it's more difficult to find
-  image(decoyImage[0], targetX, targetY, decoyImage[0].width * 0.5, decoyImage[0].height * 0.5);
+  image(targetImage, targetX, targetY, targetImage.width * 0.5, targetImage.height * 0.5);
 }
 
 
@@ -121,8 +112,8 @@ function draw() {
 
     targetX += targetVx;
     targetY += targetVy;
-    ellipse(targetX, targetY, decoyImage[0].width, decoyImage[0].height);
-    image(decoyImage[0], targetX, targetY, random(decoyImage[0].width - (decoyImage[0].width * 0.7), decoyImage[0].width), random(decoyImage[0].height - (decoyImage[0].height * 0.7), decoyImage[0].height));
+    ellipse(targetX, targetY, targetImage.width, targetImage.height);
+    image(targetImage, targetX, targetY, random(targetImage.width - (targetImage.width * 0.7), targetImage.width), random(targetImage.height - (targetImage.height * 0.7), targetImage.height));
     textSize(20);
     fill(0);
     text("I hate you!", targetX, targetY + 50);
@@ -131,14 +122,14 @@ function draw() {
   // Show the reference image
   fill(255, 50, 50);
   noStroke();
-  rect(width - decoyImage[0].width / 2, decoyImage[0].height / 2 + 10, decoyImage[0].width, decoyImage[0].height);
-  image(decoyImage[0], width - decoyImage[0].width / 2, decoyImage[0].height / 2, random(decoyImage[0].width - (decoyImage[0].width * 0.7), decoyImage[0].width), random(decoyImage[0].height - (decoyImage[0].height * 0.7), decoyImage[0].height));
+  rect(width - targetImage.width / 2, targetImage.height / 2 + 10, targetImage.width, targetImage.height);
+  image(targetImage, width - targetImage.width / 2, targetImage.height / 2, random(targetImage.width - (targetImage.width * 0.7), targetImage.width), random(targetImage.height - (targetImage.height * 0.7), targetImage.height));
 
   // Caption of the image
   textAlign(CENTER, CENTER);
   textSize(24);
   fill(255);
-  text("pls help :(", width - decoyImage[0].width / 2, decoyImage[0].height * 0.95);
+  text("pls help :(", width - targetImage.width / 2, targetImage.height * 0.95);
 }
 
 // mousePressed()
@@ -149,10 +140,10 @@ function mousePressed() {
   // Check if the cursor is in the x range of the target
   // (We're subtracting the image's width/2 because we're using imageMode(CENTER) -
   // the key is we want to determine the left and right edges of the image.)
-  if (mouseX > targetX - decoyImage[0].width / 2 && mouseX < targetX + decoyImage[0].width / 2) {
+  if (mouseX > targetX - targetImage.width / 2 && mouseX < targetX + targetImage.width / 2) {
     // Check if the cursor is also in the y range of the target
     // i.e. check if it's within the top and bottom of the image
-    if (mouseY > targetY - decoyImage[0].height / 2 && mouseY < targetY + decoyImage[0].height / 2) {
+    if (mouseY > targetY - targetImage.height / 2 && mouseY < targetY + targetImage.height / 2) {
       gameOver = true;
     }
   }
