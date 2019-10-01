@@ -15,19 +15,9 @@ https://creativenerds.co.uk/freebies/80-free-wildlife-icons-the-best-ever-animal
 // Position and image of the sausage dog we're searching for
 let targetX;
 let targetY;
-let targetImage;
 
 // The ten decoy images
-let decoyImage1;
-let decoyImage2;
-let decoyImage3;
-let decoyImage4;
-let decoyImage5;
-let decoyImage6;
-let decoyImage7;
-let decoyImage8;
-let decoyImage9;
-let decoyImage10;
+let decoyImage = [];
 
 // The number of decoys to show on the screen, randomly
 // chosen from the decoy images
@@ -45,18 +35,18 @@ let targetVy = 0;
 //
 // Loads the target and decoy images before the program starts
 function preload() {
-  targetImage = loadImage("assets/images/animals-target.png");
+  decoyImage[0] = loadImage("assets/images/animals-11.png");
 
-  decoyImage1 = loadImage("assets/images/animals-01.png");
-  decoyImage2 = loadImage("assets/images/animals-02.png");
-  decoyImage3 = loadImage("assets/images/animals-03.png");
-  decoyImage4 = loadImage("assets/images/animals-04.png");
-  decoyImage5 = loadImage("assets/images/animals-05.png");
-  decoyImage6 = loadImage("assets/images/animals-06.png");
-  decoyImage7 = loadImage("assets/images/animals-07.png");
-  decoyImage8 = loadImage("assets/images/animals-08.png");
-  decoyImage9 = loadImage("assets/images/animals-09.png");
-  decoyImage10 = loadImage("assets/images/animals-10.png");
+  decoyImage[1] = loadImage("assets/images/animals-01.png");
+  decoyImage[2] = loadImage("assets/images/animals-02.png");
+  decoyImage[3] = loadImage("assets/images/animals-03.png");
+  decoyImage[4] = loadImage("assets/images/animals-04.png");
+  decoyImage[5] = loadImage("assets/images/animals-05.png");
+  decoyImage[6] = loadImage("assets/images/animals-06.png");
+  decoyImage[7] = loadImage("assets/images/animals-07.png");
+  decoyImage[8] = loadImage("assets/images/animals-08.png");
+  decoyImage[9] = loadImage("assets/images/animals-09.png");
+  decoyImage[10] = loadImage("assets/images/animals-10.png");
 }
 
 // setup()
@@ -81,25 +71,25 @@ function setup() {
     // We'll talk more about this nice quality of random soon enough.
     // But basically each "if" and "else if" has a 10% chance of being true
     if (r < 0.1) {
-      image(decoyImage1, x, y);
+      image(decoyImage[1], x, y);
     } else if (r < 0.2) {
-      image(decoyImage2, x, y);
+      image(decoyImage[2], x, y);
     } else if (r < 0.3) {
-      image(decoyImage3, x, y);
+      image(decoyImage[3], x, y);
     } else if (r < 0.4) {
-      image(decoyImage4, x, y);
+      image(decoyImage[4], x, y);
     } else if (r < 0.5) {
-      image(decoyImage5, x, y);
+      image(decoyImage[5], x, y);
     } else if (r < 0.6) {
-      image(decoyImage6, x, y);
+      image(decoyImage[6], x, y);
     } else if (r < 0.7) {
-      image(decoyImage7, x, y);
+      image(decoyImage[7], x, y);
     } else if (r < 0.8) {
-      image(decoyImage8, x, y);
+      image(decoyImage[8], x, y);
     } else if (r < 0.9) {
-      image(decoyImage9, x, y);
+      image(decoyImage[9], x, y);
     } else if (r < 1.0) {
-      image(decoyImage10, x, y);
+      image(decoyImage[10], x, y);
     }
   }
 
@@ -109,7 +99,7 @@ function setup() {
 
   // And draw it (because it's the last thing drawn, it will always be on top)
   // We multiply by a number smaller than 1 to make the image smaller so it's more difficult to find
-  image(targetImage, targetX, targetY, targetImage.width * 0.5, targetImage.height * 0.5);
+  image(decoyImage[0], targetX, targetY, decoyImage[0].width * 0.5, decoyImage[0].height * 0.5);
 }
 
 
@@ -139,8 +129,8 @@ function draw() {
 
     targetX += targetVx;
     targetY += targetVy;
-    ellipse(targetX, targetY, targetImage.width, targetImage.height);
-    image(targetImage, targetX, targetY, random(targetImage.width - (targetImage.width * 0.7), targetImage.width), random(targetImage.height - (targetImage.height * 0.7), targetImage.height));
+    ellipse(targetX, targetY, decoyImage[0].width, decoyImage[0].height);
+    image(decoyImage[0], targetX, targetY, random(decoyImage[0].width - (decoyImage[0].width * 0.7), decoyImage[0].width), random(decoyImage[0].height - (decoyImage[0].height * 0.7), decoyImage[0].height));
     textSize(20);
     fill(0);
     text("I hate you!", targetX, targetY + 50);
@@ -149,14 +139,14 @@ function draw() {
   // Show the reference image
   fill(255, 50, 50);
   noStroke();
-  rect(width - targetImage.width / 2, targetImage.height / 2 + 10, targetImage.width, targetImage.height);
-  image(targetImage, width - targetImage.width / 2, targetImage.height / 2, random(targetImage.width - (targetImage.width * 0.7), targetImage.width), random(targetImage.height - (targetImage.height * 0.7), targetImage.height));
+  rect(width - decoyImage[0].width / 2, decoyImage[0].height / 2 + 10, decoyImage[0].width, decoyImage[0].height);
+  image(decoyImage[0], width - decoyImage[0].width / 2, decoyImage[0].height / 2, random(decoyImage[0].width - (decoyImage[0].width * 0.7), decoyImage[0].width), random(decoyImage[0].height - (decoyImage[0].height * 0.7), decoyImage[0].height));
 
   // Caption of the image
   textAlign(CENTER, CENTER);
   textSize(24);
   fill(255);
-  text("pls help :(", width - targetImage.width / 2, targetImage.height * 0.95);
+  text("pls help :(", width - decoyImage[0].width / 2, decoyImage[0].height * 0.95);
 }
 
 // mousePressed()
@@ -167,10 +157,10 @@ function mousePressed() {
   // Check if the cursor is in the x range of the target
   // (We're subtracting the image's width/2 because we're using imageMode(CENTER) -
   // the key is we want to determine the left and right edges of the image.)
-  if (mouseX > targetX - targetImage.width / 2 && mouseX < targetX + targetImage.width / 2) {
+  if (mouseX > targetX - decoyImage[0].width / 2 && mouseX < targetX + decoyImage[0].width / 2) {
     // Check if the cursor is also in the y range of the target
     // i.e. check if it's within the top and bottom of the image
-    if (mouseY > targetY - targetImage.height / 2 && mouseY < targetY + targetImage.height / 2) {
+    if (mouseY > targetY - decoyImage[0].height / 2 && mouseY < targetY + decoyImage[0].height / 2) {
       gameOver = true;
     }
   }
