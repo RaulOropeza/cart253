@@ -41,6 +41,7 @@ function preload() {
     decoyImage[i] = loadImage("assets/images/animals-" + nf(i, 2, 0) + ".png");
   }
 
+  // Randomly select an element of the array
   targetImage = random(decoyImage);
 }
 
