@@ -24,12 +24,16 @@ let playerY;
 let playerRadius = 25;
 let playerVX = 0;
 let playerVY = 0;
-let playerMaxSpeed = 2;
+let playerMaxSpeed = 4;
 // Player health
 let playerHealth;
 let playerMaxHealth = 255;
 // Player fill color
 let playerFill = 50;
+// Player acceleration when holding down key
+let playerAcceleration = 0.05;
+// Player deceleration when not holding any key
+let playerDeceleration = 0.1;
 
 // Prey position, size, velocity
 let preyX;
@@ -115,20 +119,33 @@ function draw() {
 function handleInput() {
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW)) {
-    playerVX = -playerMaxSpeed;
+    // The value of the horizontal movement will decrease slowly until it reaches the maximum speed
+    if (playerVX > -playerMaxSpeed) playerVX -= playerAcceleration * playerMaxSpeed;
   } else if (keyIsDown(RIGHT_ARROW)) {
-    playerVX = playerMaxSpeed;
+    // The speed of the horizontal movement will increase slowly until it reaches the maximum speed
+    if (playerVX < playerMaxSpeed) playerVX += playerAcceleration * playerMaxSpeed;
   } else {
-    playerVX = 0;
+
+    // Since we've implemented acceleration, I wanted to make the player movement more natural implementing also deceleration
+    // I used a different variable for this because I wanted it to decelerate faster than it accelerates
+
+    // When no key is being pressed, the horizontal speed will slow down until it reaches 0
+    if (playerVX > 0) playerVX -= playerDeceleration;
+    if (playerVX < 0) playerVX += playerDeceleration;
   }
 
   // Check for vertical movement
   if (keyIsDown(UP_ARROW)) {
-    playerVY = -playerMaxSpeed;
+    // The value of the vertical movement will decrease slowly until it reaches the maximum speed
+    if (playerVY > -playerMaxSpeed) playerVY -= playerAcceleration * playerMaxSpeed;
   } else if (keyIsDown(DOWN_ARROW)) {
-    playerVY = playerMaxSpeed;
+    // The speed of the horizontal movement will increase slowly until it reaches the maximum speed
+    if (playerVY < playerMaxSpeed) playerVY += playerAcceleration * playerMaxSpeed;
   } else {
-    playerVY = 0;
+
+    // When no key is being pressed, the vertical speed will slow down until it reaches 0
+    if (playerVY > 0) playerVY -= playerDeceleration;
+    if (playerVY < 0) playerVY += playerDeceleration;
   }
 }
 
