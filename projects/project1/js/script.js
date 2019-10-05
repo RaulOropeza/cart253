@@ -35,9 +35,10 @@ let playerFill = 50;
 let preyX;
 let preyY;
 let preyRadius = 25;
-let preyVX;
-let preyVY;
-let preyMaxSpeed = 4;
+let preyMaxSpeed = 0.01;
+// Prey Perlin noise value
+let pX;
+let pY;
 // Prey health
 let preyHealth;
 let preyMaxHealth = 100;
@@ -64,12 +65,12 @@ function setup() {
 
 // setupPrey()
 //
-// Initialises prey's position, velocity, and health
+// Initialises prey's starting position and health
 function setupPrey() {
-  preyX = width / 5;
-  preyY = height / 2;
-  preyVX = -preyMaxSpeed;
-  preyVY = preyMaxSpeed;
+  // Here we just need to generate a random starting Perlin noise value for the prey's movement
+  // because it's position depends on that value
+  pX = random(0, 100);
+  pY = random(0, 100);
   preyHealth = preyMaxHealth;
 }
 
@@ -193,11 +194,8 @@ function checkEating() {
 
     // Check if the prey died (health 0)
     if (preyHealth === 0) {
-      // Move the "new" prey to a random position
-      preyX = random(0, width);
-      preyY = random(0, height);
-      // Give it full health
-      preyHealth = preyMaxHealth;
+      // Restart the health of the prey and create a new one in a random position
+      setupPrey();
       // Track how many prey were eaten
       preyEaten = preyEaten + 1;
     }
@@ -208,22 +206,15 @@ function checkEating() {
 //
 // Moves the prey based on random velocity changes
 function movePrey() {
-  // Change the prey's velocity at random intervals
-  // random() will be < 0.05 5% of the time, so the prey
-  // will change direction on 5% of frames
-  if (random() < 0.05) {
-    // Set velocity based on random values to get a new direction
-    // and speed of movement
-    //
-    // Use map() to convert from the 0-1 range of the random() function
-    // to the appropriate range of velocities for the prey
-    preyVX = map(random(), 0, 1, -preyMaxSpeed, preyMaxSpeed);
-    preyVY = map(random(), 0, 1, -preyMaxSpeed, preyMaxSpeed);
-  }
+  // Set the prey's position to be dynamic in relation of the Perlin noise value
+  // The value 1.5 is to make the noise range to include an extra third of the canvas
+  // to make the prey eventually move towards the borders
+  preyX = 1.5 * width * noise(pX);
+  preyY = 1.5 * height * noise(pY);
 
-  // Update prey position based on velocity
-  preyX = preyX + preyVX;
-  preyY = preyY + preyVY;
+  // Adds the speed value to the variable that the Perlin noise is going to use in the next frame
+  pX += preyMaxSpeed;
+  pY += preyMaxSpeed;
 
   // Screen wrapping
   if (preyX < 0) {
