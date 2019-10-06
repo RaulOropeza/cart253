@@ -57,10 +57,14 @@ let preyEaten = 0;
 // Starting position of the enemy
 let enemyX;
 let enemyY;
+// Number of preys the player has to eat in order to make enemy appear
+let enemyStart = 0;
 // Speed at which the enemy is going to move
-let enemySpeed = 0.001;
+let enemySpeed = 0.002;
 // Starting size of the enemy
-let enemyRadius = 25;
+let enemyRadius = 35;
+// Amount of speed increase every time it eats a prey
+let enemySpeedIncrease = 0.0005;
 
 // setup()
 //
@@ -201,7 +205,7 @@ function movePlayer() {
 // Make the enemy move towards the prey
 function moveEnemy() {
   // The enemy starts to move when the player has eaten 5 preys
-  if (preyEaten >= 5) {
+  if (preyEaten >= enemyStart) {
     // Calculate the distance between enemy's and prey's position
     let dx = preyX - enemyX;
     let dy = preyY - enemyY;
@@ -231,6 +235,7 @@ function updateHealth() {
 // checkEating()
 //
 // Check if the player overlaps the prey and updates health of both
+// Check if enemy overlaps prey, enemy's health doesn't change
 function checkEating() {
   // Get distance of player to prey
   let d = dist(playerX, playerY, preyX, preyY);
@@ -251,6 +256,26 @@ function checkEating() {
       setupPrey();
       // Track how many prey were eaten
       preyEaten = preyEaten + 1;
+    }
+  }
+
+  // Make enemy eat prey
+
+  // Get distance of enemy to prey
+  let distEnemy = dist(enemyX, enemyY, preyX, preyY);
+  // Check if it's an overlap
+  if (distEnemy < enemyRadius + preyRadius) {
+    // Reduce the prey health
+    preyHealth = preyHealth - eatHealth;
+    // Constrain to the possible range
+    preyHealth = constrain(preyHealth, 0, preyMaxHealth);
+
+    // Check if the prey died (health 0)
+    if (preyHealth === 0) {
+      // Restart the health of the prey and create a new one in a random position
+      setupPrey();
+      // Increase enemy speed
+      enemySpeed += enemySpeedIncrease;
     }
   }
 }
