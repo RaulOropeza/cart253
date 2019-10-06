@@ -54,6 +54,14 @@ let eatHealth = 10;
 // Number of prey eaten during the game (the "score")
 let preyEaten = 0;
 
+// Starting position of the enemy
+let enemyX;
+let enemyY;
+// Speed at which the enemy is going to move
+let enemySpeed = 0.001;
+// Starting size of the enemy
+let enemyRadius = 25;
+
 // setup()
 //
 // Sets up the basic elements of the game
@@ -65,11 +73,12 @@ function setup() {
   // We're using simple functions to separate code out
   setupPrey();
   setupPlayer();
+  setupEnemy();
 }
 
 // setupPrey()
 //
-// Initialises prey's starting position and health
+// Initialises prey's Perlin noise and health
 function setupPrey() {
   // Here we just need to generate a random starting Perlin noise value for the prey's movement
   // because it's position depends on that value
@@ -87,6 +96,15 @@ function setupPlayer() {
   playerHealth = playerMaxHealth;
 }
 
+// setupEnemy
+//
+// Initialises enemy position, size and speed
+function setupEnemy() {
+  // Start the enemy off canvas
+  enemyX = -enemyRadius;
+  enemyY = -enemyRadius;
+}
+
 // draw()
 //
 // While the game is active, checks input
@@ -102,11 +120,13 @@ function draw() {
 
     movePlayer();
     movePrey();
+    moveEnemy();
 
     updateHealth();
     checkEating();
 
     drawPrey();
+    drawEnemy();
     drawPlayer();
   } else {
     showGameOver();
@@ -173,6 +193,22 @@ function movePlayer() {
   } else if (playerY > height) {
     // Off the bottom, so subtract the height to reset to the top
     playerY = playerY - height;
+  }
+}
+
+// moveEnemy()
+//
+// Make the enemy move towards the prey
+function moveEnemy() {
+  // The enemy starts to move when the player has eaten 5 preys
+  if (preyEaten >= 5) {
+    // Calculate the distance between enemy's and prey's position
+    let dx = preyX - enemyX;
+    let dy = preyY - enemyY;
+
+    // Make the enemy chase the prey
+    enemyX += dx * enemySpeed;
+    enemyY += dy * enemySpeed;
   }
 }
 
@@ -261,6 +297,14 @@ function drawPrey() {
 function drawPlayer() {
   fill(playerFill, playerHealth);
   ellipse(playerX, playerY, playerRadius * 2);
+}
+
+// drawEnemy()
+//
+// Draw the enemy as a black ellipse
+function drawEnemy() {
+  fill(0);
+  ellipse(enemyX, enemyY, enemyRadius * 2);
 }
 
 // showGameOver()
