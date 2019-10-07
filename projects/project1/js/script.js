@@ -46,8 +46,8 @@ let pY;
 // Prey health
 let preyHealth;
 let preyMaxHealth = 100;
-// Prey fill color
-let preyFill = 200;
+// Prey tone color
+let preyFill;
 
 // Amount of health obtained per frame of "eating" (overlapping) the prey
 let eatHealth = 10;
@@ -75,11 +75,17 @@ let streakNeeded = 5;
 // How long (in seconds) will the streak reward will last
 let timer = 6;
 
+// Variables for the images
+let imgPlayer;
+let imgEnemy;
+let imgPrey;
+
 // setup()
 //
 // Sets up the basic elements of the game
 function setup() {
   createCanvas(500, 500);
+  setupImages();
 
   noStroke();
 
@@ -87,6 +93,15 @@ function setup() {
   setupPrey();
   setupPlayer();
   setupEnemy();
+}
+
+// setupImages()
+//
+// Sets the files for the images
+function setupImages() {
+  imgPlayer = loadImage("assets/images/dems.png");
+  imgEnemy = loadImage("assets/images/reps.png");
+  imgPrey = loadImage("assets/images/voters.png");
 }
 
 // setupPrey()
@@ -126,7 +141,7 @@ function setupEnemy() {
 // displays the two agents.
 // When the game is over, shows the game over screen.
 function draw() {
-  background(100, 100, 200);
+  background(100, 100, 100);
 
   if (!gameOver) {
     handleInput();
@@ -328,8 +343,8 @@ function checkStreak() {
       streakCounter = 0;
       timer = 6;
 
-      playerAcceleration = 0.1;
-      playerDeceleration = 0.05;
+      playerAcceleration = 0.05;
+      playerDeceleration = 0.1;
       playerMaxSpeed = 4;
       playerRadius = 25;
     }
@@ -368,24 +383,29 @@ function movePrey() {
 //
 // Draw the prey as an ellipse with alpha based on health
 function drawPrey() {
-  fill(preyFill, preyHealth);
-  ellipse(preyX, preyY, preyRadius * 2);
+  preyFill = map(preyHealth, preyMaxHealth, 0, 255, 0);
+  tint(255, preyFill);
+  //ellipse(preyX, preyY, preyRadius * 2);
+
+  image(imgPrey, preyX, preyY, preyRadius * 2, preyRadius * 2);
 }
 
 // drawPlayer()
 //
 // Draw the player as an ellipse with alpha value based on health
 function drawPlayer() {
-  fill(playerFill, playerHealth);
-  ellipse(playerX, playerY, playerRadius * 2);
+  tint(255, playerHealth);
+  //ellipse(playerX, playerY, playerRadius * 2);
+  image(imgPlayer, playerX, playerY, playerRadius * 2, playerRadius * 2);
 }
 
 // drawEnemy()
 //
 // Draw the enemy as a black ellipse
 function drawEnemy() {
-  fill(0);
-  ellipse(enemyX, enemyY, enemyRadius * 2);
+  tint(255);
+  //ellipse(enemyX, enemyY, enemyRadius * 2);
+  image(imgEnemy, enemyX, enemyY, enemyRadius * 2, enemyRadius * 2);
 }
 
 // showGameOver()
