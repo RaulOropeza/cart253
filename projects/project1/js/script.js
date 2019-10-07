@@ -66,6 +66,15 @@ let enemyRadius = 35;
 // Amount of speed increase every time it eats a prey
 let enemySpeedIncrease = 0.0005;
 
+// Counter for streak
+let streakCounter = 0;
+// Determine if the streak is active or not
+let streakOn = false;
+// How big must the streak be to get the reward
+let streakNeeded = 5;
+// How long (in seconds) will the streak reward will last
+let timer = 6;
+
 // setup()
 //
 // Sets up the basic elements of the game
@@ -132,6 +141,8 @@ function draw() {
     drawPrey();
     drawEnemy();
     drawPlayer();
+
+    checkStreak();
   } else {
     showGameOver();
   }
@@ -256,6 +267,16 @@ function checkEating() {
       setupPrey();
       // Track how many prey were eaten
       preyEaten = preyEaten + 1;
+
+      // Only evaluate streak if not already on a streak
+      if (!streakOn) {
+        // Increases counter for streak only if the prey is eaten while the player's health is at least 200
+        if (playerHealth >= 200) {
+          streakCounter++;
+        } else {
+          streakCounter = 0;
+        }
+      }
     }
   }
 
@@ -276,6 +297,41 @@ function checkEating() {
       setupPrey();
       // Increase enemy speed
       enemySpeed += enemySpeedIncrease;
+    }
+  }
+}
+
+// streak()
+//
+// Changes movement of the player for a limited time
+function checkStreak() {
+  // Streak reward will activate when the number of prey eaten is the required
+  if (streakCounter >= streakNeeded) {
+    // Activate the streak reward...
+    streakOn = true;
+
+    // ... which is to make the player bigger, better and faster
+    playerAcceleration = 1;
+    playerDeceleration = 1;
+    playerMaxSpeed = 8;
+    playerRadius = 60;
+
+    // Start the timer
+    if (frameCount % 60 === 0 && timer > 0) {
+      console.log(timer);
+      timer--;
+    }
+
+    // When the timer gets to 0, reset all the values to normal
+    if (timer === 0) {
+      streakOn = false;
+      streakCounter = 0;
+      timer = 6;
+
+      playerAcceleration = 0.1;
+      playerDeceleration = 0.05;
+      playerMaxSpeed = 4;
+      playerRadius = 25;
     }
   }
 }
