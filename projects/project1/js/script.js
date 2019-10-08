@@ -359,6 +359,12 @@ function checkStreak() {
     playerAcceleration = 50;
     playerDeceleration = 0.7;
 
+    push();
+    textSize(32);
+    textStyle(BOLD);
+    textAlign(CENTER, CENTER);
+    text("IMPEACHMENT CHARGE!!!", width / 2, height * 0.9);
+    pop();
     // Start the timer
     if (frameCount % 60 === 0 && timer > 0) {
       console.log(timer);
