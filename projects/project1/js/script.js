@@ -3,10 +3,10 @@
 /******************************************************
 
 Game - Chaser
-Pippin Barr
+Pippin Barr and Raúl Oropeza
 
-A "simple" game of cat and mouse. The player is a circle and can move with keys,
-if they overlap the (randomly moving) prey they "eat it" by sucking out its life
+A "simple" game of cat and mouse. The player is the democrat party and can move with keys,
+if they overlap the (randomly moving) prey (voters) they "eat them" by sucking out its life
 and adding it to their own. The player "dies" slowly over time so they have to keep
 eating to stay alive.
 
@@ -31,9 +31,9 @@ let playerMaxHealth = 255;
 // Player fill color
 let playerFill = 50;
 // Player acceleration when holding down key
-let playerAcceleration = 0.05;
+let playerAcceleration = 3;
 // Player deceleration when not holding any key
-let playerDeceleration = 0.1;
+let playerDeceleration = 0.9;
 
 // Prey position, size, velocity
 let preyX;
@@ -58,7 +58,7 @@ let preyEaten = 0;
 let enemyX;
 let enemyY;
 // Number of preys the player has to eat in order to make enemy appear
-let enemyStart = 0;
+let enemyStart = 5;
 // Speed at which the enemy is going to move
 let enemySpeed = 0.002;
 // Starting size of the enemy
@@ -71,7 +71,7 @@ let streakCounter = 0;
 // Determine if the streak is active or not
 let streakOn = false;
 // How big must the streak be to get the reward
-let streakNeeded = 5;
+let streakNeeded = 1;
 // How long (in seconds) will the streak reward will last
 let timer = 6;
 
@@ -79,29 +79,50 @@ let timer = 6;
 let imgPlayer;
 let imgEnemy;
 let imgPrey;
+let imgBackground;
+let imgTrump;
+
+// Variables for sound
+let soundGameOver;
+
+// preload()
+//
+// Preloads the sounds and images
+function preload() {
+  preloadImages();
+  preloadSound();
+}
+
+// preloadImages()
+//
+// Sets the files for the images
+function preloadImages() {
+  imgPlayer = loadImage("assets/images/dems.png");
+  imgEnemy = loadImage("assets/images/reps.png");
+  imgPrey = loadImage("assets/images/voters.png");
+  imgBackground = loadImage("assets/images/white_house.png");
+  imgTrump = loadImage("assets/images/trump.png");
+}
+
+// preloadSound
+//
+// Sets the files for sounds
+function preloadSound() {
+  soundGameOver = loadSound("assets/sounds/GameOverMusic.mp3");
+}
 
 // setup()
 //
 // Sets up the basic elements of the game
 function setup() {
   createCanvas(500, 500);
-  setupImages();
-
+  imageMode(CENTER);
   noStroke();
 
   // We're using simple functions to separate code out
   setupPrey();
   setupPlayer();
   setupEnemy();
-}
-
-// setupImages()
-//
-// Sets the files for the images
-function setupImages() {
-  imgPlayer = loadImage("assets/images/dems.png");
-  imgEnemy = loadImage("assets/images/reps.png");
-  imgPrey = loadImage("assets/images/voters.png");
 }
 
 // setupPrey()
@@ -141,7 +162,9 @@ function setupEnemy() {
 // displays the two agents.
 // When the game is over, shows the game over screen.
 function draw() {
-  background(100, 100, 100);
+  // Set the background to be a very poor photoshop-made drawing of the white house
+  tint(255, 255);
+  image(imgBackground, width / 2, height / 2, 500, 500);
 
   if (!gameOver) {
     handleInput();
@@ -170,32 +193,37 @@ function handleInput() {
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW)) {
     // The value of the horizontal movement will decrease slowly until it reaches the maximum speed
-    if (playerVX > -playerMaxSpeed) playerVX -= playerAcceleration * playerMaxSpeed;
+    if (playerVX > -playerMaxSpeed) playerVX -= 0.1 * playerAcceleration;
   } else if (keyIsDown(RIGHT_ARROW)) {
     // The speed of the horizontal movement will increase slowly until it reaches the maximum speed
-    if (playerVX < playerMaxSpeed) playerVX += playerAcceleration * playerMaxSpeed;
+    if (playerVX < playerMaxSpeed) playerVX += 0.1 * playerAcceleration;
   } else {
-
-    // Since we've implemented acceleration, I wanted to make the player movement more natural implementing also deceleration
+    // Since we've implemented acceleration, I wanted to make the player's movement more natural implementing deceleration
     // I used a different variable for this because I wanted it to decelerate faster than it accelerates
 
-    // When no key is being pressed, the horizontal speed will slow down until it reaches 0
-    if (playerVX > 0) playerVX -= playerDeceleration;
-    if (playerVX < 0) playerVX += playerDeceleration;
+    // Decelerate horizontal movement when neither RIGHT_ARROW nor LEFT_ARROW are pressed
+    playerVX *= playerDeceleration;
   }
 
   // Check for vertical movement
   if (keyIsDown(UP_ARROW)) {
     // The value of the vertical movement will decrease slowly until it reaches the maximum speed
-    if (playerVY > -playerMaxSpeed) playerVY -= playerAcceleration * playerMaxSpeed;
+    if (playerVY > -playerMaxSpeed) playerVY -= 0.1 * playerAcceleration;
   } else if (keyIsDown(DOWN_ARROW)) {
     // The speed of the horizontal movement will increase slowly until it reaches the maximum speed
-    if (playerVY < playerMaxSpeed) playerVY += playerAcceleration * playerMaxSpeed;
+    if (playerVY < playerMaxSpeed) playerVY += 0.1 * playerAcceleration;
   } else {
+    // Decelerate vertical movement when neither UP_ARROW nor DOWN_ARROW are pressed
+    playerVY *= playerDeceleration;
+  }
 
-    // When no key is being pressed, the vertical speed will slow down until it reaches 0
-    if (playerVY > 0) playerVY -= playerDeceleration;
-    if (playerVY < 0) playerVY += playerDeceleration;
+  // Sprint
+  if (keyIsDown(SHIFT)) {
+    // Increase the player max speed to make a sprint
+    playerMaxSpeed = 8;
+  } else {
+    // Reset max speed
+    playerMaxSpeed = 4;
   }
 }
 
@@ -326,10 +354,10 @@ function checkStreak() {
     streakOn = true;
 
     // ... which is to make the player bigger, better and faster
-    playerAcceleration = 1;
-    playerDeceleration = 1;
-    playerMaxSpeed = 8;
+    playerMaxSpeed = 15;
     playerRadius = 60;
+    playerAcceleration = 50;
+    playerDeceleration = 0.7;
 
     // Start the timer
     if (frameCount % 60 === 0 && timer > 0) {
@@ -343,10 +371,10 @@ function checkStreak() {
       streakCounter = 0;
       timer = 6;
 
-      playerAcceleration = 0.05;
-      playerDeceleration = 0.1;
       playerMaxSpeed = 4;
       playerRadius = 25;
+      playerAcceleration = 3;
+      playerDeceleration = 0.9;
     }
   }
 }
@@ -381,10 +409,10 @@ function movePrey() {
 
 // drawPrey()
 //
-// Draw the prey as an ellipse with alpha based on health
+// Draw the prey as the voters with alpha based on health
 function drawPrey() {
   preyFill = map(preyHealth, preyMaxHealth, 0, 255, 0);
-  tint(255, preyFill);
+  tint(255, 255, 0, preyFill);
   //ellipse(preyX, preyY, preyRadius * 2);
 
   image(imgPrey, preyX, preyY, preyRadius * 2, preyRadius * 2);
@@ -392,7 +420,7 @@ function drawPrey() {
 
 // drawPlayer()
 //
-// Draw the player as an ellipse with alpha value based on health
+// Draw the player as the Democratic Party with alpha value based on health
 function drawPlayer() {
   tint(255, playerHealth);
   //ellipse(playerX, playerY, playerRadius * 2);
@@ -401,7 +429,7 @@ function drawPlayer() {
 
 // drawEnemy()
 //
-// Draw the enemy as a black ellipse
+// Draw the enemy as the Republican Party
 function drawEnemy() {
   tint(255);
   //ellipse(enemyX, enemyY, enemyRadius * 2);
@@ -412,14 +440,47 @@ function drawEnemy() {
 //
 // Display text about the game being over!
 function showGameOver() {
+  // Change background to be white
+  background(255, 0, 0);
+  // Add a Trump propaganda-like border
+  push();
+  rectMode(CENTER);
+
+  strokeWeight(5);
+  stroke(255);
+  noFill();
+  rect(width / 2, height / 2, width * 0.92, height * 0.92);
+
+  noStroke();
+  fill(255, 0, 0);
+  rect(width / 2, height / 2, width / 3, height);
+  pop();
+
+  // Starts playing the game over music only if it's not already playing
+  if (!soundGameOver.isPlaying()) soundGameOver.play();
   // Set up the font
-  textSize(32);
   textAlign(CENTER, CENTER);
-  fill(0);
-  // Set up the text to display
-  let gameOverText = "GAME OVER\n"; // \n means "new line"
-  gameOverText = gameOverText + "You ate " + preyEaten + " prey\n";
-  gameOverText = gameOverText + "before you died."
-  // Display it in the centre of the screen
-  text(gameOverText, width / 2, height / 2);
+
+  // Setup and display the GAME OVER text
+  textSize(44);
+  textStyle(BOLD);
+  fill(255);
+  text("GAME OVER", width / 2, height * 0.2);
+
+  // Display Trump in the middle of the canvas
+  image(imgTrump, width / 2, height * 0.5, width * 0.45, height * 0.45);
+
+  // Show the result of the election
+  textSize(22);
+  text("TRUMP HAS BEEN RE-ELECTED", width / 2, height * 0.79);
+
+  // Setup the result text
+  textSize(15);
+  textStyle(NORMAL);
+  // Just a little conditional to make the word "voter" in the result is written in it's singular form if the score is 1, slightly OCD perhaps...
+  if (preyEaten === 1) {
+    text("You won " + preyEaten + " new voter before you died", width / 2, height * 0.835);
+  } else {
+    text("You won " + preyEaten + " new voters before you died", width / 2, height * 0.835);
+  }
 }
