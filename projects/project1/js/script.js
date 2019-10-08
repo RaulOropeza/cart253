@@ -363,11 +363,17 @@ function checkStreak() {
     textSize(32);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
+
+    if (frameCount % 2 === 0) {
+      fill(255);
+    } else {
+      fill(0, 0, 255);
+    }
     text("IMPEACHMENT CHARGE!!!", width / 2, height * 0.9);
     pop();
     // Start the timer
-    if (frameCount % 60 === 0 && timer > 0) {
-      console.log(timer);
+    // When a second (when the residuum of the frameCount divided by the integer value of the current frameRate equals 0) has elapsed, the timer value decreases by 1
+    if (frameCount % int(frameRate()) === 0 && timer > 0) {
       timer--;
     }
 
