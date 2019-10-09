@@ -223,7 +223,7 @@ function handleInput() {
   // Sprint
   if (keyIsDown(SHIFT)) {
     // Increase the player max speed to make a sprint
-    playerMaxSpeed = 8;
+    playerMaxSpeed = 10;
   } else {
     // Reset max speed
     playerMaxSpeed = 4;
@@ -370,12 +370,12 @@ function checkStreak() {
     playerMaxSpeed = 15;
     playerAcceleration = 50;
     playerDeceleration = 0.7;
-
+    // Display a description of the streak
     push();
     textSize(32);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
-
+    // Make the text color white on even frames and blue on odd ones
     if (frameCount % 2 === 0) {
       fill(255);
     } else {
