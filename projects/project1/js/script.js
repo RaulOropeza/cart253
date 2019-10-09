@@ -5,9 +5,8 @@
 Game - Chaser
 Pippin Barr and Raúl Oropeza
 
-A "simple" game of cat and mouse. The player is the democrat party and can move with keys,
-if they overlap the (randomly moving) prey (voters) they "eat them" by sucking out its life
-and adding it to their own. The player "dies" slowly over time so they have to keep
+A "simple" game of cat and mouse. The player is the Democratic Party and can move with keys,
+if they overlap the prey (voters) they "eat them" by sucking out their life (or should I say, taxes) and adding it to their own (so they can promise "free" healthcare and education). The player "dies" slowly over time so they have to keep
 eating to stay alive.
 
 Includes: Physics-based movement, keyboard controls, health/stamina,
@@ -162,8 +161,8 @@ function setupEnemy() {
 //
 // While the game is active, checks input
 // updates positions of prey and player,
-// checks health (dying), checks eating (overlaps)
-// displays the two agents.
+// checks health (dying), checks eating (overlaps), checks streak (consecutive eats while having at least 200 health)
+// displays the three agents.
 // When the game is over, shows the game over screen.
 function draw() {
   // Set the background to be a very poor photoshop-made drawing of the white house
@@ -367,10 +366,8 @@ function checkStreak() {
   if (streakCounter >= streakNeeded) {
     // Activate the streak reward...
     streakOn = true;
-
     // ... which is to make the player bigger, better and faster
     playerMaxSpeed = 15;
-    //playerRadius = 60;
     playerAcceleration = 50;
     playerDeceleration = 0.7;
 
@@ -399,7 +396,6 @@ function checkStreak() {
       timer = 6;
 
       playerMaxSpeed = 4;
-      //playerRadius = 25;
       playerAcceleration = 3;
       playerDeceleration = 0.9;
     }
@@ -482,27 +478,22 @@ function showGameOver() {
   fill(255, 0, 0);
   rect(width / 2, height / 2, width / 3, height);
   pop();
-
   // Set up the font
   textAlign(CENTER, CENTER);
-
   // Setup and display the GAME OVER text
   textSize(44);
   textStyle(BOLD);
   fill(255);
   text("GAME OVER", width / 2, height * 0.2);
-
   // Display Trump in the middle of the canvas
   image(imgTrump, width / 2, height * 0.5, width * 0.45, height * 0.45);
-
   // Show the result of the election
   textSize(22);
   text("TRUMP HAS BEEN RE-ELECTED", width / 2, height * 0.79);
-
   // Setup the result text
   textSize(15);
   textStyle(NORMAL);
-  // Just a little conditional to make the word "voter" in the result is written in it's singular form if the score is 1, slightly OCD perhaps...
+  // Just a little conditional to make the word "voter" in the result is written in it's singular form if the score is 1. Too obsesive?
   if (preyEaten === 1) {
     text("You won " + preyEaten + " new voter before you died", width / 2, height * 0.835);
   } else {
