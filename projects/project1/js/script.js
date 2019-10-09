@@ -71,7 +71,7 @@ let streakCounter = 0;
 // Determine if the streak is active or not
 let streakOn = false;
 // How big must the streak be to get the reward
-let streakNeeded = 1;
+let streakNeeded = 3;
 // How long (in seconds) will the streak reward will last
 let timer = 6;
 
@@ -84,6 +84,8 @@ let imgTrump;
 
 // Variables for sound
 let soundGameOver;
+let soundPlayerEat;
+let soundEnemyEat;
 
 // preload()
 //
@@ -108,7 +110,9 @@ function preloadImages() {
 //
 // Sets the files for sounds
 function preloadSound() {
-  soundGameOver = loadSound("assets/sounds/GameOverMusic.mp3");
+  soundGameOver = loadSound("assets/sounds/keep_america_great.mp3");
+  soundPlayerEat = loadSound("assets/sounds/player_eat.mp3");
+  soundEnemyEat = loadSound("assets/sounds/enemy_eat.mp3");
 }
 
 // setup()
@@ -283,6 +287,8 @@ function updateHealth() {
   if (playerHealth === 0) {
     // If so, the game is over
     gameOver = true;
+    // Play Game Over sound
+    soundGameOver.play();
   }
 }
 
@@ -310,6 +316,7 @@ function checkEating() {
       setupPrey();
       // Track how many prey were eaten
       preyEaten = preyEaten + 1;
+      soundPlayerEat.play();
 
       // Only evaluate streak if not already on a streak
       if (!streakOn) {
@@ -340,6 +347,7 @@ function checkEating() {
       setupPrey();
       // Increase enemy speed
       enemySpeed += enemySpeedIncrease;
+      soundEnemyEat.play();
     }
   }
 }
@@ -348,6 +356,13 @@ function checkEating() {
 //
 // Changes movement of the player for a limited time
 function checkStreak() {
+  // Decided to add an animation to the player when it grows/shrinks
+  if (streakOn) {
+    playerRadius += 5;
+  } else {
+    playerRadius -= 5;
+  }
+  playerRadius = constrain(playerRadius, 25, 60);
   // Streak reward will activate when the number of prey eaten is the required
   if (streakCounter >= streakNeeded) {
     // Activate the streak reward...
@@ -355,7 +370,7 @@ function checkStreak() {
 
     // ... which is to make the player bigger, better and faster
     playerMaxSpeed = 15;
-    playerRadius = 60;
+    //playerRadius = 60;
     playerAcceleration = 50;
     playerDeceleration = 0.7;
 
@@ -384,7 +399,7 @@ function checkStreak() {
       timer = 6;
 
       playerMaxSpeed = 4;
-      playerRadius = 25;
+      //playerRadius = 25;
       playerAcceleration = 3;
       playerDeceleration = 0.9;
     }
@@ -468,8 +483,6 @@ function showGameOver() {
   rect(width / 2, height / 2, width / 3, height);
   pop();
 
-  // Starts playing the game over music only if it's not already playing
-  if (!soundGameOver.isPlaying()) soundGameOver.play();
   // Set up the font
   textAlign(CENTER, CENTER);
 
