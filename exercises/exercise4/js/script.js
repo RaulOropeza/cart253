@@ -1,10 +1,9 @@
 "use strict";
 
 // Pong
-// by Pippin Barr
+// by Pippin Barr and Raúl Oropeza
 //
-// A "simple" implementation of Pong with no scoring system
-// just the ability to play the game with the keyboard.
+// A "simple" implementation of Pong.
 //
 // Up and down keys control the right hand paddle, W and S keys control
 // the left hand paddle
@@ -15,6 +14,10 @@ let playing = false;
 // Game colors (using hexadecimal)
 let bgColor = 0;
 let fgColor = 255;
+
+// Game score
+let leftScore = 0;
+let rightScore = 0;
 
 // BALL
 
@@ -118,6 +121,8 @@ function draw() {
     checkBallPaddleCollision(leftPaddle);
     checkBallPaddleCollision(rightPaddle);
 
+    displayScore();
+
     // Check if the ball went out of bounds and respond if so
     // (Note how we can use a function that returns a truth value
     // inside a conditional!)
@@ -127,8 +132,7 @@ function draw() {
       // This is where we would likely count points, depending on which side
       // the ball went off...
     }
-  }
-  else {
+  } else {
     // Otherwise we display the message to start the game
     displayStartMessage();
   }
@@ -154,8 +158,7 @@ function handleInput(paddle) {
   else if (keyIsDown(paddle.downKey)) {
     // Move down
     paddle.vy = paddle.speed;
-  }
-  else {
+  } else {
     // Otherwise stop moving
     paddle.vy = 0;
   }
@@ -185,11 +188,28 @@ function updateBall() {
 function ballIsOutOfBounds() {
   // Check for ball going off the sides
   if (ball.x < 0 || ball.x > width) {
+    // Adds a point to the right player if the ball comes out from the left side
+    if (ball.x < 0) rightScore++;
+    // Adds a point to the left player if the ball comes out from the right side
+    if (ball.x > 0) leftScore++;
     return true;
-  }
-  else {
+  } else {
     return false;
   }
+}
+
+// displayScore()
+//
+// Shows the score for both players
+function displayScore() {
+  // Set the format of the text
+  textAlign(CENTER, CENTER);
+  textSize(30);
+  textStyle(BOLD);
+  // Display the left score
+  text(leftScore, width * 0.25, height * 0.07);
+  // Display the right score
+  text(rightScore, width * 0.75, height * 0.07);
 }
 
 // checkBallWallCollision()
