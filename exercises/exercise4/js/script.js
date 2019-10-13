@@ -18,6 +18,9 @@ let fgColor = 255;
 // Game score
 let leftScore = 0;
 let rightScore = 0;
+// Variables to check if the color must increase or decrease
+let rightColorTop = false;
+let leftColorTop = false;
 
 // BALL
 
@@ -197,15 +200,33 @@ function ballIsOutOfBounds() {
     if (ball.x < 0) {
       // Add a point
       rightScore++;
-      // Make background clearer
-      rightPaddle.bgColor += 20;
+      // Check if color is completely white or black
+      if (rightPaddle.bgColor >= 255 || rightPaddle.bgColor <= 0) {
+        rightColorTop = !rightColorTop;
+      }
+      if (rightColorTop) {
+        // Make background clearer
+        rightPaddle.bgColor += 20;
+      } else {
+        // Make background darker
+        rightPaddle.bgColor -= 20;
+      }
     }
     // Instructions for left score
     if (ball.x > 0) {
       // Add a point
       leftScore++;
-      // Make background clearer
-      leftPaddle.bgColor += 20;
+      // Check if color is completely white or black
+      if (leftPaddle.bgColor >= 255 || leftPaddle.bgColor <= 0) {
+        leftColorTop = !leftColorTop;
+      }
+      if (leftColorTop) {
+        // Make background clearer
+        leftPaddle.bgColor += 20;
+      } else {
+        // Make background darker
+        leftPaddle.bgColor -= 20;
+      }
     }
     return true;
   } else {
