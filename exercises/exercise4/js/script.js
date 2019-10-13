@@ -21,6 +21,8 @@ let rightScore = 0;
 // Variables to check if the color must increase or decrease
 let rightColorTop = false;
 let leftColorTop = false;
+// Check who scored
+let whoScored = false;
 
 // BALL
 
@@ -198,6 +200,7 @@ function ballIsOutOfBounds() {
   if (ball.x < 0 || ball.x > width) {
     // Instructions for right score
     if (ball.x < 0) {
+      whoScored = false;
       // Add a point
       rightScore++;
       // Check if color is completely white or black
@@ -214,6 +217,7 @@ function ballIsOutOfBounds() {
     }
     // Instructions for left score
     if (ball.x > 0) {
+      whoScored = true;
       // Add a point
       leftScore++;
       // Check if color is completely white or black
@@ -341,8 +345,15 @@ function resetBall() {
   // Initialise the ball's position and velocity
   ball.x = width / 2;
   ball.y = height / 2;
-  ball.vx = ball.speed;
-  ball.vy = ball.speed;
+  // Throw the ball towards who scored the last point
+  if (whoScored) {
+    ball.vx = -ball.speed;
+  } else {
+    ball.vx = ball.speed;
+  }
+
+  // Throw the ball at a random Y speed
+  ball.vy = int(random(1, 10));
 }
 
 // displayStartMessage()
