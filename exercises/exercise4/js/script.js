@@ -74,12 +74,14 @@ let rightPaddle = {
 
 // A variable to hold the beep sound we will play on bouncing
 let beepSFX;
-
+// A variable to hold the font
+let bauhausFont;
 // preload()
 //
-// Loads the beep audio for the sound of bouncing
+// Loads the beep audio for the sound of bouncing and the text font
 function preload() {
   beepSFX = new Audio("assets/sounds/beep.wav");
+  bauhausFont = loadFont('assets/fonts/Bauhaus Medium.otf');
 }
 
 // setup()
@@ -147,6 +149,8 @@ function draw() {
     displayStartMessage();
   }
 
+
+  backgroundTheme();
   // We always display the paddles and ball so it looks like Pong!
   displayPaddle(leftPaddle);
   displayPaddle(rightPaddle);
@@ -236,6 +240,27 @@ function ballIsOutOfBounds() {
   } else {
     return false;
   }
+}
+
+// backgroundTheme()
+//
+// A Bauhaus theme
+function backgroundTheme() {
+  push();
+  rectMode(CORNER);
+  fill(rightPaddle.bgColor);
+  arc(width / 2, height / 2, 250, 250, PI / 2, -PI / 2);
+  fill(leftPaddle.bgColor);
+  arc(width / 2, height / 2, 250, 250, -PI / 2, PI / 2);
+
+  textAlign(CENTER, CENTER);
+  textSize(40);
+  textFont(bauhausFont);
+  fill(leftPaddle.bgColor);
+  text("Bau", width / 2 - 40, height / 2 - 6);
+  fill(rightPaddle.bgColor);
+  text("haus", width / 2 + 48, height / 2 - 6);
+  pop();
 }
 
 // displayScore()
