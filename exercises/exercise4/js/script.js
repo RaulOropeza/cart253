@@ -22,14 +22,15 @@ let rightScore = 0;
 // BALL
 
 // A ball object with the properties of
-// position, size, velocity, and speed
+// position, size, velocity, color and speed
 let ball = {
   x: 0,
   y: 0,
   size: 20,
   vx: 0,
   vy: 0,
-  speed: 5
+  speed: 5,
+  color: 150
 }
 
 // PADDLES
@@ -44,7 +45,9 @@ let leftPaddle = {
   vy: 0,
   speed: 5,
   upKey: 87,
-  downKey: 83
+  downKey: 83,
+  // Add a background color that changes with the score
+  bgColor: 0
 }
 
 // RIGHT PADDLE
@@ -59,7 +62,9 @@ let rightPaddle = {
   vy: 0,
   speed: 5,
   upKey: 38,
-  downKey: 40
+  downKey: 40,
+  // Add a background color that changes with the score
+  bgColor: 0
 }
 
 // A variable to hold the beep sound we will play on bouncing
@@ -188,10 +193,20 @@ function updateBall() {
 function ballIsOutOfBounds() {
   // Check for ball going off the sides
   if (ball.x < 0 || ball.x > width) {
-    // Adds a point to the right player if the ball comes out from the left side
-    if (ball.x < 0) rightScore++;
-    // Adds a point to the left player if the ball comes out from the right side
-    if (ball.x > 0) leftScore++;
+    // Instructions for right score
+    if (ball.x < 0) {
+      // Add a point
+      rightScore++;
+      // Make background clearer
+      rightPaddle.bgColor += 20;
+    }
+    // Instructions for left score
+    if (ball.x > 0) {
+      // Add a point
+      leftScore++;
+      // Make background clearer
+      leftPaddle.bgColor += 20;
+    }
     return true;
   } else {
     return false;
@@ -202,14 +217,31 @@ function ballIsOutOfBounds() {
 //
 // Shows the score for both players
 function displayScore() {
-  // Set the format of the text
-  textAlign(CENTER, CENTER);
-  textSize(30);
-  textStyle(BOLD);
-  // Display the left score
-  text(leftScore, width * 0.25, height * 0.07);
-  // Display the right score
-  text(rightScore, width * 0.75, height * 0.07);
+  // Add a background color that changes with the score
+  push();
+  // Left paddle
+  fill(leftPaddle.bgColor);
+  rect(width * 0.25, height / 2, width / 2, height);
+  // Right paddle
+  fill(rightPaddle.bgColor);
+  rect(width * 0.75, height / 2, width / 2, height);
+  pop();
+
+  /* Decided to hide the score to make the game look more minimalist
+    // Display the score
+    push();
+    // Set the format of the text
+    textAlign(CENTER, CENTER);
+    textSize(30);
+    textStyle(BOLD);
+    stroke(0);
+    strokeWeight(4);
+    // Display the left score
+    text(leftScore, width * 0.25, height * 0.07);
+    // Display the right score
+    text(rightScore, width * 0.75, height * 0.07);
+    pop();
+  */
 }
 
 // checkBallWallCollision()
@@ -219,7 +251,7 @@ function displayScore() {
 // Play a sound
 function checkBallWallCollision() {
   // Check for collisions with top or bottom...
-  if (ball.y < 0 || ball.y > height) {
+  if (ball.y - ball.size / 2 <= 0 || ball.y + ball.size / 2 >= height) {
     // It hit so reverse velocity
     ball.vy = -ball.vy;
     // Play our bouncing sound effect by rewinding and then playing
@@ -270,10 +302,15 @@ function displayPaddle(paddle) {
 
 // displayBall()
 //
-// Draws the ball on screen as a square
+// Draws the ball on screen as a square and changes its color depending on the background
 function displayBall() {
+  // Make the color of the ball the oppositeof the background
+  ball.color = map(get(ball.x, ball.y)[0], 255, 0, 0, 255);
   // Draw the ball
+  push();
+  fill(ball.color);
   rect(ball.x, ball.y, ball.size, ball.size);
+  pop();
 }
 
 // resetBall()
