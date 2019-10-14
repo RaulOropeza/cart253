@@ -18,9 +18,6 @@ let fgColor = 255;
 // Game score
 let leftScore = 0;
 let rightScore = 0;
-// Variables to check if the color must increase or decrease
-let rightColorTop = false;
-let leftColorTop = false;
 // Check who scored
 let whoScored = false;
 
@@ -35,7 +32,7 @@ let ball = {
   vx: 0,
   vy: 0,
   speed: 5,
-  color: 150
+  noise: 0.0
 }
 
 // PADDLES
@@ -95,6 +92,10 @@ function setup() {
   rectMode(CENTER);
   noStroke();
   fill(fgColor);
+  // Set up the font for all the texts
+  textFont(bauhausFont);
+  changeBackground();
+  displayScore();
 
   setupPaddles();
   resetBall();
@@ -119,7 +120,7 @@ function setupPaddles() {
 // See how tidy it looks?!
 function draw() {
   // Fill the background
-  background(bgColor);
+  //  background(bgColor);
 
   if (playing) {
     // If the game is in play, we handle input and move the elements around
@@ -152,7 +153,9 @@ function draw() {
 
   backgroundTheme();
   // We always display the paddles and ball so it looks like Pong!
+  fill(187, 29, 44);
   displayPaddle(leftPaddle);
+  fill(29, 47, 95);
   displayPaddle(rightPaddle);
   displayBall();
 }
@@ -207,38 +210,32 @@ function ballIsOutOfBounds() {
       whoScored = false;
       // Add a point
       rightScore++;
-      // Check if color is completely white or black
-      if (rightPaddle.bgColor >= 255 || rightPaddle.bgColor <= 0) {
-        rightColorTop = !rightColorTop;
-      }
-      if (rightColorTop) {
-        // Make background clearer
-        rightPaddle.bgColor += 20;
-      } else {
-        // Make background darker
-        rightPaddle.bgColor -= 20;
-      }
     }
     // Instructions for left score
     if (ball.x > 0) {
       whoScored = true;
       // Add a point
       leftScore++;
-      // Check if color is completely white or black
-      if (leftPaddle.bgColor >= 255 || leftPaddle.bgColor <= 0) {
-        leftColorTop = !leftColorTop;
-      }
-      if (leftColorTop) {
-        // Make background clearer
-        leftPaddle.bgColor += 20;
-      } else {
-        // Make background darker
-        leftPaddle.bgColor -= 20;
-      }
     }
+    changeBackground();
     return true;
   } else {
     return false;
+  }
+}
+
+// changeBackground()
+//
+// Changes the background depending on who scored
+function changeBackground() {
+  if (whoScored) {
+    // Makes the first half of the screen have a lighter color and the second half a darker one
+    rightPaddle.bgColor = 25;
+    leftPaddle.bgColor = 230;
+  } else {
+    // Makes the first half of the screen have a darker color and the second half a lighter one
+    leftPaddle.bgColor = 25;
+    rightPaddle.bgColor = 230;
   }
 }
 
@@ -255,7 +252,6 @@ function backgroundTheme() {
 
   textAlign(CENTER, CENTER);
   textSize(40);
-  textFont(bauhausFont);
   fill(leftPaddle.bgColor);
   text("Bau", width / 2 - 40, height / 2 - 6);
   fill(rightPaddle.bgColor);
@@ -277,21 +273,19 @@ function displayScore() {
   rect(width * 0.75, height / 2, width / 2, height);
   pop();
 
-  /* Decided to hide the score to make the game look more minimalist
-    // Display the score
-    push();
-    // Set the format of the text
-    textAlign(CENTER, CENTER);
-    textSize(30);
-    textStyle(BOLD);
-    stroke(0);
-    strokeWeight(4);
-    // Display the left score
-    text(leftScore, width * 0.25, height * 0.07);
-    // Display the right score
-    text(rightScore, width * 0.75, height * 0.07);
-    pop();
-  */
+  // Display the score
+  push();
+  // Set the format of the text
+  textAlign(CENTER, CENTER);
+  textSize(30);
+  textStyle(BOLD);
+  // Display the left score
+  fill(rightPaddle.bgColor);
+  text(leftScore, width * 0.25, height * 0.07);
+  // Display the right score
+  fill(leftPaddle.bgColor);
+  text(rightScore, width * 0.75, height * 0.07);
+  pop();
 }
 
 // checkBallWallCollision()
@@ -354,11 +348,11 @@ function displayPaddle(paddle) {
 //
 // Draws the ball on screen as a square and changes its color depending on the background
 function displayBall() {
-  // Make the color of the ball the oppositeof the background
-  ball.color = map(get(ball.x, ball.y)[0], 255, 0, 0, 255);
-  // Draw the ball
+  // Draw the ball with a random size using Perlin noise
+  ball.noise += 0.01;
+  ball.size = 5 + (noise(ball.noise) * 50);
   push();
-  fill(ball.color);
+  fill(247, 215, 19);
   rect(ball.x, ball.y, ball.size, ball.size);
   pop();
 }
@@ -388,7 +382,8 @@ function displayStartMessage() {
   push();
   textAlign(CENTER, CENTER);
   textSize(32);
-  text("CLICK TO START", width / 2, height / 2);
+  fill(255);
+  text("CLICK TO START", width / 2, height * 0.9);
   pop();
 }
 
