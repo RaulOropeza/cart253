@@ -152,7 +152,7 @@ function draw() {
 
 
   backgroundTheme();
-  // We always display the paddles and ball so it looks like Pong!
+  // We always display the paddles and ball
   fill(187, 29, 44);
   displayPaddle(leftPaddle);
   fill(29, 47, 95);
@@ -284,7 +284,7 @@ function displayScore() {
   text(leftScore, width * 0.25, height * 0.07);
   // Display the right score
   fill(leftPaddle.bgColor);
-  text(rightScore, width * 0.75, height * 0.07);
+  text(rightScore, width * 0.75, height * 0.93);
   pop();
 }
 
@@ -341,6 +341,7 @@ function checkBallPaddleCollision(paddle) {
 // Draws the specified paddle
 function displayPaddle(paddle) {
   // Draw the paddles
+  paddle.y = constrain(paddle.y, paddle.h / 2 + 8, height - paddle.h / 2 - 8); // Constrain the movement in the Y axis
   rect(paddle.x, paddle.y, paddle.w, paddle.h);
 }
 
@@ -350,7 +351,7 @@ function displayPaddle(paddle) {
 function displayBall() {
   // Draw the ball with a random size using Perlin noise
   ball.noise += 0.01;
-  ball.size = 5 + (noise(ball.noise) * 50);
+  ball.size = 10 + (noise(ball.noise) * 70);
   push();
   fill(247, 215, 19);
   rect(ball.x, ball.y, ball.size, ball.size);
@@ -372,7 +373,10 @@ function resetBall() {
   }
 
   // Throw the ball at a random Y speed
-  ball.vy = int(random(1, 10));
+  ball.vy = int(random(1, 11));
+  // Here I used a pro move that I remembered, to assign a conditional value to a variable
+  // The point here is to have a 50 - 50 chance for the ball to be thrown upwards
+  ball.vy = ball.vy > 6 ? -ball.vy : ball.vy; // I'm very proud of this line of code! Haha
 }
 
 // displayStartMessage()
