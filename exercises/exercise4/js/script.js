@@ -42,7 +42,7 @@ let ball = {
 let leftPaddle = {
   x: 0,
   y: 0,
-  w: 20,
+  w: 30,
   h: 70,
   vy: 0,
   speed: 5,
@@ -59,7 +59,7 @@ let leftPaddle = {
 let rightPaddle = {
   x: 0,
   y: 0,
-  w: 20,
+  w: 30,
   h: 70,
   vy: 0,
   speed: 5,
@@ -71,6 +71,9 @@ let rightPaddle = {
 
 // A variable to hold the beep sound we will play on bouncing
 let beepSFX;
+// A variable to hold the beep sound we will play on scoring
+let scoreSFX;
+
 // A variable to hold the font
 let bauhausFont;
 // preload()
@@ -78,6 +81,7 @@ let bauhausFont;
 // Loads the beep audio for the sound of bouncing and the text font
 function preload() {
   beepSFX = new Audio("assets/sounds/beep.wav");
+  scoreSFX = new Audio("assets/sounds/score.wav");
   bauhausFont = loadFont('assets/fonts/Bauhaus Medium.otf');
 }
 
@@ -142,6 +146,7 @@ function draw() {
     if (ballIsOutOfBounds()) {
       // If it went off either side, reset it
       resetBall();
+      scoreSFX.play();
       // This is where we would likely count points, depending on which side
       // the ball went off...
     }
@@ -149,7 +154,6 @@ function draw() {
     // Otherwise we display the message to start the game
     displayStartMessage();
   }
-
 
   backgroundTheme();
   // We always display the paddles and ball
@@ -218,6 +222,7 @@ function ballIsOutOfBounds() {
       leftScore++;
     }
     changeBackground();
+    movePaddleX();
     return true;
   } else {
     return false;
@@ -259,6 +264,22 @@ function backgroundTheme() {
   pop();
 }
 
+// movePaddleX
+//
+// Moves the paddle forward if scores or backwards if got scored
+function movePaddleX() {
+  if (whoScored) {
+    leftPaddle.x += 10;
+    rightPaddle.x += 10;
+  } else {
+    rightPaddle.x -= 10;
+    leftPaddle.x -= 10;
+  }
+
+  leftPaddle.x = constrain(leftPaddle.x, leftPaddle.w / 2, width / 2 - leftPaddle.w / 2);
+  rightPaddle.x = constrain(rightPaddle.x, width / 2 + rightPaddle.w / 2, width - rightPaddle.w / 2);
+}
+
 // displayScore()
 //
 // Shows the score for both players
@@ -273,19 +294,21 @@ function displayScore() {
   rect(width * 0.75, height / 2, width / 2, height);
   pop();
 
-  // Display the score
-  push();
-  // Set the format of the text
-  textAlign(CENTER, CENTER);
-  textSize(30);
-  textStyle(BOLD);
-  // Display the left score
-  fill(rightPaddle.bgColor);
-  text(leftScore, width * 0.25, height * 0.07);
-  // Display the right score
-  fill(leftPaddle.bgColor);
-  text(rightScore, width * 0.75, height * 0.93);
-  pop();
+  /*
+    // Display the score
+    push();
+    // Set the format of the text
+    textAlign(CENTER, CENTER);
+    textSize(30);
+    textStyle(BOLD);
+    // Display the left score
+    fill(rightPaddle.bgColor);
+    text(leftScore, width * 0.25, height * 0.07);
+    // Display the right score
+    fill(leftPaddle.bgColor);
+    text(rightScore, width * 0.75, height * 0.93);
+    pop();
+  */
 }
 
 // checkBallWallCollision()
@@ -341,7 +364,7 @@ function checkBallPaddleCollision(paddle) {
 // Draws the specified paddle
 function displayPaddle(paddle) {
   // Draw the paddles
-  paddle.y = constrain(paddle.y, paddle.h / 2 + 8, height - paddle.h / 2 - 8); // Constrain the movement in the Y axis
+  paddle.y = constrain(paddle.y, paddle.h / 2, height - paddle.h / 2); // Constrain the movement in the Y axis
   rect(paddle.x, paddle.y, paddle.w, paddle.h);
 }
 
