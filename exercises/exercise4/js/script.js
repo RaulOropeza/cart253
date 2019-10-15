@@ -1,6 +1,6 @@
 "use strict";
 
-// Pong
+// Bauhaus Pong
 // by Pippin Barr and Raúl Oropeza
 //
 // A "simple" implementation of Pong.
@@ -397,7 +397,7 @@ function resetBall() {
 
   // Throw the ball at a random Y speed
   ball.vy = int(random(1, 11));
-  // Here I used a pro move that I remembered, to assign a conditional value to a variable
+  // Here I used a pro-gamer move that I remembered, to assign a conditional value to a variable
   // The point here is to have a 50 - 50 chance for the ball to be thrown upwards
   ball.vy = ball.vy > 6 ? -ball.vy : ball.vy; // I'm very proud of this line of code! Haha
 }
