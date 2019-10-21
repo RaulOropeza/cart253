@@ -10,7 +10,7 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius) {
+  constructor(x, y, speed, fillColor, radius, playerNumber) {
     // Position
     this.x = x;
     this.y = y;
@@ -27,10 +27,39 @@ class Predator {
     this.fillColor = fillColor;
     this.radius = this.health; // Radius is defined in terms of health
     // Input properties
-    this.upKey = UP_ARROW;
-    this.downKey = DOWN_ARROW;
-    this.leftKey = LEFT_ARROW;
-    this.rightKey = RIGHT_ARROW;
+    // Get the number of the player that will control this predator and
+    // assigns its keys
+    switch (playerNumber) {
+      case 1:
+        this.upKey = 87; // W
+        this.downKey = 83; // S
+        this.leftKey = 65; // A
+        this.rightKey = 68; // D
+        break;
+      case 2:
+        this.upKey = UP_ARROW;
+        this.downKey = DOWN_ARROW;
+        this.leftKey = LEFT_ARROW;
+        this.rightKey = RIGHT_ARROW;
+        break;
+      case 3:
+        this.upKey = 73; // I
+        this.downKey = 75; // K
+        this.leftKey = 74; // J
+        this.rightKey = 76; // L
+        break;
+      case 4:
+        this.upKey = 104; // NUM 8
+        this.downKey = 98; // NUM 2
+        this.leftKey = 100; // NUM 4
+        this.rightKey = 102; // NUM 6
+        break;
+      default:
+        this.upKey = 87; // W
+        this.downKey = 83; // S
+        this.leftKey = 65; // A
+        this.rightKey = 68; // D
+    }
   }
 
   // handleInput
@@ -41,21 +70,17 @@ class Predator {
     // Horizontal movement
     if (keyIsDown(this.leftKey)) {
       this.vx = -this.speed;
-    }
-    else if (keyIsDown(this.rightKey)) {
+    } else if (keyIsDown(this.rightKey)) {
       this.vx = this.speed;
-    }
-    else {
+    } else {
       this.vx = 0;
     }
     // Vertical movement
     if (keyIsDown(this.upKey)) {
       this.vy = -this.speed;
-    }
-    else if (keyIsDown(this.downKey)) {
+    } else if (keyIsDown(this.downKey)) {
       this.vy = this.speed;
-    }
-    else {
+    } else {
       this.vy = 0;
     }
   }
@@ -84,15 +109,13 @@ class Predator {
     // Off the left or right
     if (this.x < 0) {
       this.x += width;
-    }
-    else if (this.x > width) {
+    } else if (this.x > width) {
       this.x -= width;
     }
     // Off the top or bottom
     if (this.y < 0) {
       this.y += height;
-    }
-    else if (this.y > height) {
+    } else if (this.y > height) {
       this.y -= height;
     }
   }
