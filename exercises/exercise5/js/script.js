@@ -33,7 +33,7 @@ function setup() {
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
   // Clear the background to black
-  background(0);
+  background(5, 5, 35);
 
   // Handle input for the predators
   tiger.handleInput();

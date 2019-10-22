@@ -11,6 +11,8 @@ class Predator {
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
   constructor(x, y, speed, fillColor, radius, playerNumber) {
+    // Image file
+    this.imgFile = loadImage("assets/images/player" + playerNumber + ".png");
     // Position
     this.x = x;
     this.y = y;
@@ -172,11 +174,10 @@ class Predator {
   display() {
     if (this.radius > 0) { // Check if the predator is still alive
       push();
-      ellipseMode(CENTER);
+      imageMode(CENTER);
       noStroke();
-      fill(this.fillColor);
       this.radius = this.health;
-      ellipse(this.x, this.y, this.radius * 2);
+      image(this.imgFile, this.x, this.y, this.radius * 2, this.radius * 2);
       textSize(18);
       textAlign(CENTER, CENTER);
       fill(255);
