@@ -6,26 +6,26 @@
 // The predator loses health over time, so must keep eating to survive.
 
 // Our predators
-let tiger;
-let lion;
+let blackhole1;
+let blackhole2;
 
 // The four prey
-let antelope;
-let zebra;
-let bee;
-let human;
+let mars;
+let earth;
+let venus;
+let uranus;
 // setup()
 //
 // Sets up a canvas
 // Creates objects for the predator and three prey
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  tiger = new Predator(100, 100, 5, color(200, 200, 0), 40, 1);
-  lion = new Predator(200, 200, 5, color(120, 180, 0), 40, 2);
-  antelope = new Prey(100, 100, 10, color(255, 100, 10), 50);
-  zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
-  bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
-  human = new Prey(100, 100, 15, color(20, 20, 255), 30);
+  blackhole1 = new Predator(100, 100, 5, color(200, 200, 0), 40, 1);
+  blackhole2 = new Predator(200, 200, 5, color(120, 180, 0), 40, 2);
+  mars = new Prey(100, 100, 10, color(255, 100, 10), 50);
+  earth = new Prey(100, 100, 8, color(255, 255, 255), 60);
+  venus = new Prey(100, 100, 20, color(255, 255, 0), 10);
+  uranus = new Prey(100, 100, 15, color(20, 20, 255), 30);
 }
 
 // draw()
@@ -36,34 +36,34 @@ function draw() {
   background(5, 5, 35);
 
   // Handle input for the predators
-  tiger.handleInput();
-  lion.handleInput();
+  blackhole1.handleInput();
+  blackhole2.handleInput();
 
   // Move all the "animals"
-  tiger.move();
-  lion.move();
-  antelope.move();
-  zebra.move();
-  bee.move();
-  human.move();
+  blackhole1.move();
+  blackhole2.move();
+  mars.move();
+  earth.move();
+  venus.move();
+  uranus.move();
 
-  // Handle the tiger eating any of the prey
-  tiger.handleEating(antelope);
-  tiger.handleEating(zebra);
-  tiger.handleEating(bee);
-  tiger.handleEating(human);
+  // Handle the blackhole1 eating any of the prey
+  blackhole1.handleEating(mars);
+  blackhole1.handleEating(earth);
+  blackhole1.handleEating(venus);
+  blackhole1.handleEating(uranus);
 
-  // Handle the lion eating any of the prey
-  lion.handleEating(antelope);
-  lion.handleEating(zebra);
-  lion.handleEating(bee);
-  lion.handleEating(human);
+  // Handle the blackhole2 eating any of the prey
+  blackhole2.handleEating(mars);
+  blackhole2.handleEating(earth);
+  blackhole2.handleEating(venus);
+  blackhole2.handleEating(uranus);
 
   // Display all the "animals"
-  tiger.display();
-  lion.display();
-  antelope.display();
-  zebra.display();
-  bee.display();
-  human.display();
+  blackhole1.display();
+  blackhole2.display();
+  mars.display();
+  earth.display();
+  venus.display();
+  uranus.display();
 }
