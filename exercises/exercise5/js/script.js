@@ -1,7 +1,7 @@
-// Predator-Prey Simulation
+// Black Holes and Revelations
 // by Pippin Barr and Raúl Oropeza
 //
-// Creates a predator and three prey (of different sizes and speeds)
+// Creates a predator and four prey (of different sizes and speeds)
 // The predator chases the prey using the arrow keys and consumes them.
 // The predator loses health over time, so must keep eating to survive.
 
@@ -17,7 +17,7 @@ let uranus;
 // setup()
 //
 // Sets up a canvas
-// Creates objects for the predator and three prey
+// Creates objects for the predator and four prey
 function setup() {
   createCanvas(windowWidth, windowHeight);
   blackhole1 = new Predator(100, 100, 5, color(200, 200, 0), 40, 1);
@@ -39,7 +39,7 @@ function draw() {
   blackhole1.handleInput();
   blackhole2.handleInput();
 
-  // Move all the "animals"
+  // Move all the "planets"
   blackhole1.move();
   blackhole2.move();
   mars.move();
@@ -59,7 +59,7 @@ function draw() {
   blackhole2.handleEating(venus);
   blackhole2.handleEating(uranus);
 
-  // Display all the "animals"
+  // Display all the "planets"
   blackhole1.display();
   blackhole2.display();
   mars.display();
