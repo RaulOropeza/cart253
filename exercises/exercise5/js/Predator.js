@@ -31,16 +31,16 @@ class Predator {
     // assigns its keys
     switch (playerNumber) {
       case 1:
-        this.upKey = 87; // W
-        this.downKey = 83; // S
-        this.leftKey = 65; // A
-        this.rightKey = 68; // D
-        break;
-      case 2:
         this.upKey = UP_ARROW;
         this.downKey = DOWN_ARROW;
         this.leftKey = LEFT_ARROW;
         this.rightKey = RIGHT_ARROW;
+        break;
+      case 2:
+        this.upKey = 87; // W
+        this.downKey = 83; // S
+        this.leftKey = 65; // A
+        this.rightKey = 68; // D
         break;
       case 3:
         this.upKey = 73; // I
@@ -55,11 +55,13 @@ class Predator {
         this.rightKey = 102; // NUM 6
         break;
       default:
-        this.upKey = 87; // W
-        this.downKey = 83; // S
-        this.leftKey = 65; // A
-        this.rightKey = 68; // D
+        this.upKey = UP_ARROW;
+        this.downKey = DOWN_ARROW;
+        this.leftKey = LEFT_ARROW;
+        this.rightKey = RIGHT_ARROW;
     }
+    // Prey counter
+    this.preyCounter = 0;
   }
 
   // handleInput
@@ -126,18 +128,21 @@ class Predator {
   // overlaps it. If so, reduces the prey's health and increases
   // the predator's. If the prey dies, it gets reset.
   handleEating(prey) {
-    // Calculate distance from this predator to the prey
-    let d = dist(this.x, this.y, prey.x, prey.y);
-    // Check if the distance is less than their two radii (an overlap)
-    if (d < this.radius + prey.radius) {
-      // Increase predator health and constrain it to its possible range
-      this.health += this.healthGainPerEat;
-      this.health = constrain(this.health, 0, this.maxHealth);
-      // Decrease prey health by the same amount
-      prey.health -= this.healthGainPerEat;
-      // Check if the prey died and reset it if so
-      if (prey.health < 0) {
-        prey.reset();
+    if (this.radius > 0) { // Check if the predator is still alive
+      // Calculate distance from this predator to the prey
+      let d = dist(this.x, this.y, prey.x, prey.y);
+      // Check if the distance is less than their two radii (an overlap)
+      if (d < this.radius + prey.radius) {
+        // Increase predator health and constrain it to its possible range
+        this.health += this.healthGainPerEat;
+        this.health = constrain(this.health, 0, this.maxHealth);
+        // Decrease prey health by the same amount
+        prey.health -= this.healthGainPerEat;
+        // Check if the prey died and reset it if so
+        if (prey.health < 0) {
+          prey.reset();
+          this.preyCounter++;
+        }
       }
     }
   }
@@ -147,11 +152,18 @@ class Predator {
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    push();
-    noStroke();
-    fill(this.fillColor);
-    this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
-    pop();
+    if (this.radius > 0) { // Check if the predator is still alive
+      push();
+      ellipseMode(CENTER);
+      noStroke();
+      fill(this.fillColor);
+      this.radius = this.health;
+      ellipse(this.x, this.y, this.radius * 2);
+      textSize(18);
+      textAlign(CENTER, CENTER);
+      fill(255);
+      text(this.preyCounter, this.x, this.y);
+      pop();
+    }
   }
 }
