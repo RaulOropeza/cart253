@@ -22,10 +22,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   blackhole1 = new Predator(100, 100, 5, color(200, 200, 0), 40, 1);
   blackhole2 = new Predator(200, 200, 5, color(120, 180, 0), 40, 2);
-  mars = new Prey(100, 100, 10, color(255, 100, 10), 50);
-  earth = new Prey(100, 100, 8, color(255, 255, 255), 60);
-  venus = new Prey(100, 100, 20, color(255, 255, 0), 10);
-  uranus = new Prey(100, 100, 15, color(20, 20, 255), 30);
+  mars = new Prey(100, 100, 10, 1, 60);
+  earth = new Prey(100, 100, 8, 2, 100);
+  venus = new Prey(100, 100, 20, 3, 80);
+  uranus = new Prey(100, 100, 15, 4, 40);
 }
 
 // draw()
