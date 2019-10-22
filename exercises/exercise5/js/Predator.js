@@ -18,6 +18,7 @@ class Predator {
     this.vx = 0;
     this.vy = 0;
     this.speed = speed;
+    this.sprintSpeed = speed;
     // Health properties
     this.maxHealth = radius;
     this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
@@ -35,30 +36,40 @@ class Predator {
         this.downKey = DOWN_ARROW;
         this.leftKey = LEFT_ARROW;
         this.rightKey = RIGHT_ARROW;
+        // Sprint key
+        this.sprintKey = 16; // Shift
         break;
       case 2:
         this.upKey = 87; // W
         this.downKey = 83; // S
         this.leftKey = 65; // A
         this.rightKey = 68; // D
+        // Sprint key
+        this.sprintKey = 69; // E
         break;
       case 3:
         this.upKey = 73; // I
         this.downKey = 75; // K
         this.leftKey = 74; // J
         this.rightKey = 76; // L
+        // Sprint key
+        this.sprintKey = 79; // O
         break;
       case 4:
         this.upKey = 104; // NUM 8
         this.downKey = 98; // NUM 2
         this.leftKey = 100; // NUM 4
         this.rightKey = 102; // NUM 6
+        // Sprint key
+        this.sprintKey = 105; // NUM 9
         break;
       default:
         this.upKey = UP_ARROW;
         this.downKey = DOWN_ARROW;
         this.leftKey = LEFT_ARROW;
         this.rightKey = RIGHT_ARROW;
+        // Sprint key
+        this.sprintKey = 16; // Shift
     }
     // Prey counter
     this.preyCounter = 0;
@@ -84,6 +95,13 @@ class Predator {
       this.vy = this.speed;
     } else {
       this.vy = 0;
+    }
+
+    // Sprint
+    if (keyIsDown(this.sprintKey)) {
+      this.speed = this.sprintSpeed * 3;
+    } else {
+      this.speed = this.sprintSpeed;
     }
   }
 
