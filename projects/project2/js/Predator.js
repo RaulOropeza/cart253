@@ -39,7 +39,7 @@ class Predator {
   // Lowers health (as a cost of living)
   // Handles wrapping
   move() {
-    // Set the ratio at wich tha player's movement will slow as it gets close to the cursor
+    // Set the ratio at wich tha player's movement will slow as it gets close to the cursor based on the current speed
     this.movementEasing = map(this.speed, 0, 10, 0, 0.2);
     // Calculate distance between mouse position and the player
     this.distToMouseX = mouseX - this.x;

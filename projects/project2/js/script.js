@@ -1,28 +1,30 @@
 // Predator-Prey Simulation
-// by Pippin Barr
+// by Pippin Barr and Raúl Oropeza
 //
 // Creates a predator and three prey (of different sizes and speeds)
 // The predator chases the prey using the arrow keys and consumes them.
 // The predator loses health over time, so must keep eating to survive.
 
 // Our predator
-let tiger;
+let player;
 
 // The three prey
 let antelope;
 let zebra;
 let bee;
 
+let numberOfPreys = 5;
+let normalPrey = [];
 // setup()
 //
 // Sets up a canvas
 // Creates objects for the predator and three prey
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  tiger = new Predator(100, 100, 1, color(200, 200, 0), 40);
-  antelope = new Prey(100, 100, 10, color(255, 100, 10), 50);
-  zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
-  bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
+  player = new Predator(100, 100, 1, color(200, 200, 0), 40);
+  for (let i = 0; i < numberOfPreys; i++) {
+    normalPrey[i] = new Prey(random(0, width), random(0, height), random(5, 30), color(random(0, 255), random(0, 255), random(0, 255)), random(10, 80));
+  }
 }
 
 // draw()
@@ -31,21 +33,16 @@ function setup() {
 function draw() {
   // Clear the background to black
   background(0);
-
-  // Move all the "animals"
-  tiger.move();
-  antelope.move();
-  zebra.move();
-  bee.move();
-
-  // Handle the tiger eating any of the prey
-  tiger.handleEating(antelope);
-  tiger.handleEating(zebra);
-  tiger.handleEating(bee);
-
-  // Display all the "animals"
-  tiger.display();
-  antelope.display();
-  zebra.display();
-  bee.display();
+  // Move the player
+  player.move();
+  for (let i = 0; i < numberOfPreys; i++) {
+    // Move all preys
+    normalPrey[i].move();
+    // Handle the player eating any of the prey
+    player.handleEating(normalPrey[i]);
+    // Display all preys
+    normalPrey[i].display();
+  }
+  // Display all the player
+  player.display();
 }
