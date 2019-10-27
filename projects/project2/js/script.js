@@ -8,13 +8,11 @@
 // Our predator
 let player;
 
-// The three prey
-let antelope;
-let zebra;
-let bee;
-
+// How many preys will be displayed
 let numberOfPreys = 5;
+// An array to instance all the preys
 let normalPrey = [];
+
 // setup()
 //
 // Sets up a canvas
