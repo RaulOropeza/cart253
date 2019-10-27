@@ -26,39 +26,12 @@ class Predator {
     // Display properties
     this.fillColor = fillColor;
     this.radius = this.health; // Radius is defined in terms of health
-    // Input properties
-    this.upKey = UP_ARROW;
-    this.downKey = DOWN_ARROW;
-    this.leftKey = LEFT_ARROW;
-    this.rightKey = RIGHT_ARROW;
+    // Variables to calculate distance between mouse and player
+    this.distToMouseX;
+    this.distToMouseY;
   }
 
-  // handleInput
-  //
-  // Checks if an arrow key is pressed and sets the predator's
-  // velocity appropriately.
-  handleInput() {
-    // Horizontal movement
-    if (keyIsDown(this.leftKey)) {
-      this.vx = -this.speed;
-    }
-    else if (keyIsDown(this.rightKey)) {
-      this.vx = this.speed;
-    }
-    else {
-      this.vx = 0;
-    }
-    // Vertical movement
-    if (keyIsDown(this.upKey)) {
-      this.vy = -this.speed;
-    }
-    else if (keyIsDown(this.downKey)) {
-      this.vy = this.speed;
-    }
-    else {
-      this.vy = 0;
-    }
-  }
+  // -- Since I set the controller to be the bouse position, I got rid of the handleInput method
 
   // move
   //
@@ -66,42 +39,31 @@ class Predator {
   // Lowers health (as a cost of living)
   // Handles wrapping
   move() {
+    // Set the ratio at wich tha player's movement will slow as it gets close to the cursor
+    this.movementEasing = map(this.speed, 0, 10, 0, 0.2);
+    // Calculate distance between mouse position and the player
+    this.distToMouseX = mouseX - this.x;
+    this.distToMouseY = mouseY - this.y;
     // Update position
-    this.x += this.vx;
-    this.y += this.vy;
+    this.x += this.distToMouseX * this.movementEasing;
+    this.y += this.distToMouseY * this.movementEasing;
     // Update health
     this.health = this.health - this.healthLossPerMove;
     this.health = constrain(this.health, 0, this.maxHealth);
-    // Handle wrapping
-    this.handleWrapping();
   }
 
-  // handleWrapping
-  //
-  // Checks if the predator has gone off the canvas and
-  // wraps it to the other side if so
-  handleWrapping() {
-    // Off the left or right
-    if (this.x < 0) {
-      this.x += width;
-    }
-    else if (this.x > width) {
-      this.x -= width;
-    }
-    // Off the top or bottom
-    if (this.y < 0) {
-      this.y += height;
-    }
-    else if (this.y > height) {
-      this.y -= height;
-    }
-  }
+  // -- I got rid of the handleWrapping method too
+  // -- I'm tearing this code apart hahaha! what about the next method? I wonder if I can...
 
   // handleEating
   //
+  // -- Hmmm... let's see what you do
+  //
   // Takes a Prey object as an argument and checks if the predator
   // overlaps it. If so, reduces the prey's health and increases
-  // the predator's. If the prey dies, it gets reset.
+  // the predator's. If the prey dies, it gets reset. (pls don't kill me :c)
+  //
+  // -- Alright, you can stay.
   handleEating(prey) {
     // Calculate distance from this predator to the prey
     let d = dist(this.x, this.y, prey.x, prey.y);
