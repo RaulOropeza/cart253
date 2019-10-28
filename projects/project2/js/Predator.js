@@ -14,9 +14,7 @@ class Predator {
     // Position
     this.x = x;
     this.y = y;
-    // Velocity and speed
-    this.vx = 0;
-    this.vy = 0;
+    // Speed
     this.speed = speed;
     // Health properties
     this.maxHealth = radius;
@@ -29,6 +27,8 @@ class Predator {
     // Variables to calculate distance between mouse and player
     this.distToMouseX;
     this.distToMouseY;
+    // Assign a projectile to throw
+    this.projectile = new Projectile(this, 10, 1);
   }
 
   // -- Since I set the controller to be the bouse position, I got rid of the handleInput method
@@ -39,7 +39,7 @@ class Predator {
   // Lowers health (as a cost of living)
   // Handles wrapping
   move() {
-    // Set the ratio at wich tha player's movement will slow as it gets close to the cursor based on the current speed
+    // Set the ratio at which the player's movement will slow as it gets close to the cursor based on the current speed
     this.movementEasing = map(this.speed, 0, 10, 0, 0.2);
     // Calculate distance between mouse position and the player
     this.distToMouseX = mouseX - this.x;
@@ -78,6 +78,12 @@ class Predator {
       if (prey.health < 0) {
         prey.reset();
       }
+    }
+  }
+
+  fire(prey) {
+    if (mouseIsPressed) {
+      this.projectile.display();
     }
   }
 
