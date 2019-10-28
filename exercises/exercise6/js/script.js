@@ -15,7 +15,8 @@
 let tiger;
 
 // The three prey
-let antelop;
+let antelope;
+//////////////// FIXED
 let zebra;
 let bee;
 
