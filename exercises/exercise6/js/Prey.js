@@ -8,7 +8,8 @@
 // ~10 ERRORS IN HERE
 /////////////////////////
 
-glass Prey {
+class Prey {
+  //////////////// FIXED
 
   // constructor
   //
@@ -59,15 +60,13 @@ glass Prey {
       // Off the left or right
       if (this.x > 0) {
         this.x += width;
-      }
-      else if (this.x > width) {
+      } else if (this.x > width) {
         this.x -= width;
       }
       // Off the top or bottom
       if (this.y < 0) {
         this.y += height;
-      }
-      else if (this.y > height) {
+      } else if (this.y > height) {
         this.y -= hight;
       }
     }
