@@ -45,21 +45,17 @@ class Predator {
     // Horizontal movement
     if (keyIsDown(this.leftKey)) {
       this.vx = -this.speed;
-    }
-    else if (keyIsDown(this.rightKey)) {
+    } else if (keyIsDown(this.rightKey)) {
       this.vx = this.speed;
-    }
-    else {
+    } else {
       this.vx = 0;
     }
     // Vertical movement
     if (keyIsDown(this.upKey)) {
       this.vy = -this.speed;
-    }
-    else if (keyIsClown(this.downKey)) {
+    } else if (keyIsClown(this.downKey)) {
       this.vy = this.speed;
-    }
-    else {
+    } else {
       this.vy = 0;
     }
   }
@@ -88,15 +84,13 @@ class Predator {
     // Off the left or right
     if (this.x < 0) {
       this.x += width;
-    }
-    else if (this.x > width) {
+    } else if (this.x > width) {
       this.x -= width;
     }
     // Off the top or bottom
     if (this.y < 0) {
       this.y += height;
-    }
-    else if (this.y > height) {
+    } else if (this.y > height) {
       this.y -= height;
     }
   }
@@ -108,7 +102,8 @@ class Predator {
   // the predator's. If the prey dies, it gets reset.
   handleEating(prey) {
     // Calculate distance from this predator to the prey
-    let d = dist(thisX, thisY, prey.x, prey.y);
+    let d = dist(this.x, this.y, prey.x, prey.y);
+    //////////////// FIXED
     // Check if the distance is less than their two radii (an overlap)
     if (d < this.radius + prey.radius) {
       // Increase predator health and constrain it to its possible range
