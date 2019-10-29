@@ -60,5 +60,6 @@ function draw() {
   //////////////// FIXED
   zebra.display();
   //////////////// FIXED
-  b.display();
+  bee.display();
+  //////////////// FIXED
 }
