@@ -8,12 +8,12 @@ class Projectile {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(radius, speed) {
+  constructor(radius, speed, fillColor) {
     this.x = 0;
     this.y = 0;
     this.radius = radius;
     this.speed = speed;
-    this.fillColor = color(random(255), random(255), random(255));
+    this.fillColor = fillColor;
     this.shooting = false;
   }
 
@@ -31,14 +31,14 @@ class Projectile {
   }
 
   display() {
-    this.movementEasing = map(this.speed, 0, 10, 0, 0.5);
+    this.movementEasing = map(this.speed, 0, 10, 0, 0.6);
 
     if (this.shooting) {
-      this.distToEndX = this.endX - this.x;
-      this.distToEndY = this.endY - this.y;
+      this.distToEndX = this.endX - this.startX;
+      this.distToEndY = this.endY - this.startY;
 
-      this.x += this.distToEndX * this.movementEasing;
-      this.y += this.distToEndY * this.movementEasing;
+      this.x += this.distToEndX / 15;
+      this.y += this.distToEndY / 15;
 
       push();
       ellipseMode(CENTER);
@@ -46,8 +46,6 @@ class Projectile {
       fill(this.fillColor);
       ellipse(this.x, this.y, this.radius * 2);
       pop();
-    } else {
-
     }
   }
 }

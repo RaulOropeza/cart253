@@ -23,8 +23,8 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   mouseX = width / 2;
   mouseY = height / 2;
-  player = new Predator(mouseX, mouseY, 1, color(200, 200, 0), 40);
-  projectile = new Projectile(10, 5);
+  player = new Predator(mouseX, mouseY, 1, color(255, 255, 0), 40);
+  projectile = new Projectile(10, 5, color(0, 0, 255));
   // Create all preys at once
   for (let i = 0; i < numberOfPreys; i++) {
     normalPrey[i] = new Prey(random(0, width), random(0, height), random(5, 30), color(random(0, 255), random(0, 255), random(0, 255)), random(10, 80));
@@ -36,7 +36,7 @@ function setup() {
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
   // Clear the background to black
-  background(0);
+  background(255);
   // Move the player
   player.move();
   for (let i = 0; i < numberOfPreys; i++) {
