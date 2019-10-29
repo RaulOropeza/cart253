@@ -56,7 +56,8 @@ class Predator {
     // Vertical movement
     if (keyIsDown(this.upKey)) {
       this.vy = -this.speed;
-    } else if (keyIsClown(this.downKey)) {
+    } else if (keyIsDown(this.downKey)) {
+      //////////////// FIXED
       this.vy = this.speed;
     } else {
       this.vy = 0;
