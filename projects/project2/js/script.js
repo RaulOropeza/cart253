@@ -43,7 +43,7 @@ function draw() {
     normalPrey[i].display();
   }
 
-  player.fire(normalPrey[0]);
+  player.fire();
   // Display all the player
   player.display();
 }

@@ -27,8 +27,8 @@ class Predator {
     // Variables to calculate distance between mouse and player
     this.distToMouseX;
     this.distToMouseY;
-    // Assign a projectile to throw
-    this.projectile = new Projectile(this, 10, 1);
+
+    this.projectile = new Projectile(10, 10);
   }
 
   // -- Since I set the controller to be the bouse position, I got rid of the handleInput method
@@ -81,8 +81,16 @@ class Predator {
     }
   }
 
-  fire(prey) {
-    if (mouseIsPressed) {
+  fire() {
+    this.projectileEasing = map(this.projectile.speed, 0, 10, 0, 0.4);
+    this.projectileDistToMouseX = mouseX - this.projectile.x;
+    this.projectileDistToMouseY = mouseY - this.projectile.y;
+    if (!mouseIsPressed) {
+      this.projectile.x = this.x;
+      this.projectile.y = this.y;
+    } else {
+      this.projectile.x += this.projectileDistToMouseX * this.projectileEasing;
+      this.projectile.y += this.projectileDistToMouseY * this.projectileEasing;
       this.projectile.display();
     }
   }
