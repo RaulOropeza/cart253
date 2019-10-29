@@ -34,9 +34,8 @@ class Projectile {
     this.movementEasing = map(this.speed, 0, 10, 0, 0.5);
 
     if (this.shooting) {
-
-      this.distToEndX = this.endX - this.startX;
-      this.distToEndY = this.endY - this.startY;
+      this.distToEndX = this.endX - this.x;
+      this.distToEndY = this.endY - this.y;
 
       this.x += this.distToEndX * this.movementEasing;
       this.y += this.distToEndY * this.movementEasing;
@@ -48,7 +47,7 @@ class Projectile {
       ellipse(this.x, this.y, this.radius * 2);
       pop();
     } else {
-      this.shooting = false;
+
     }
   }
 }
