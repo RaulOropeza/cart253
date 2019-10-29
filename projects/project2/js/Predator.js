@@ -81,20 +81,6 @@ class Predator {
     }
   }
 
-  fire() {
-    this.projectileEasing = map(this.projectile.speed, 0, 10, 0, 0.4);
-    this.projectileDistToMouseX = mouseX - this.projectile.x;
-    this.projectileDistToMouseY = mouseY - this.projectile.y;
-    if (!mouseIsPressed) {
-      this.projectile.x = this.x;
-      this.projectile.y = this.y;
-    } else {
-      this.projectile.x += this.projectileDistToMouseX * this.projectileEasing;
-      this.projectile.y += this.projectileDistToMouseY * this.projectileEasing;
-      this.projectile.display();
-    }
-  }
-
   // display
   //
   // Draw the predator as an ellipse on the canvas

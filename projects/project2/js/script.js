@@ -13,6 +13,8 @@ let numberOfPreys = 5;
 // An array to instance all the preys
 let normalPrey = [];
 
+let projectile;
+
 // setup()
 //
 // Sets up a canvas
@@ -22,6 +24,7 @@ function setup() {
   mouseX = width / 2;
   mouseY = height / 2;
   player = new Predator(mouseX, mouseY, 1, color(200, 200, 0), 40);
+  projectile = new Projectile(10, 5);
   // Create all preys at once
   for (let i = 0; i < numberOfPreys; i++) {
     normalPrey[i] = new Prey(random(0, width), random(0, height), random(5, 30), color(random(0, 255), random(0, 255), random(0, 255)), random(10, 80));
@@ -45,7 +48,11 @@ function draw() {
     normalPrey[i].display();
   }
 
-  player.fire();
-  // Display all the player
+  projectile.display();
+  // Display the player
   player.display();
+}
+
+function mouseReleased() {
+  projectile.shoot(player.x, player.y, mouseX, mouseY);
 }
