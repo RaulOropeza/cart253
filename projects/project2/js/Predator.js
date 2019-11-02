@@ -27,8 +27,6 @@ class Predator {
     // Variables to calculate distance between mouse and player
     this.distToMouseX;
     this.distToMouseY;
-
-    this.projectile = new Projectile(10, 10);
   }
 
   // -- Since I set the controller to be the bouse position, I got rid of the handleInput method
