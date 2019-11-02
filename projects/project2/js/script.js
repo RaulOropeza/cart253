@@ -24,7 +24,7 @@ function setup() {
   mouseX = width / 2;
   mouseY = height / 2;
   player = new Predator(mouseX, mouseY, 1, color(255, 255, 0), 40);
-  laser = new Laser(color(255, 150, 0));
+  laser = new Laser();
   // Create all preys at once
   for (let i = 0; i < numberOfPreys; i++) {
     normalPrey[i] = new Prey(random(0, width), random(0, height), random(5, 30), color(random(0, 255), random(0, 255), random(0, 255)), random(10, 80));
@@ -45,12 +45,20 @@ function draw() {
     // Display all preys
     normalPrey[i].display();
   }
+  // Shoot the laser when the mouse is pressed and lock player movement
   if (mouseIsPressed) {
-    laser.shoot(player.x, player.y, mouseX, mouseY);
+    laser.shoot(color(random(200, 255), random(10, 60), 0));
   } else {
     // Move the player
     player.move();
   }
   // Display the player
   player.display();
+}
+
+// mousePressed
+//
+// Calibrate the laser before shooting it
+function mousePressed() {
+  laser.calibrate(player.x, player.y, mouseX, mouseY);
 }
