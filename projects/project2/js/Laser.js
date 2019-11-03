@@ -61,7 +61,7 @@ class Laser {
   checkTargetHit(enemy) {
     if (this.currentX > enemy.x - enemy.radius && this.currentX < enemy.x + enemy.radius) {
       if (this.currentY > enemy.y - enemy.radius && this.currentY < enemy.y + enemy.radius) {
-        enemy.radius = 5;
+        enemy.prepare();
       }
     }
   }

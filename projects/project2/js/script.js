@@ -9,7 +9,11 @@
 let player;
 // The deadly laser
 let laser;
-// The enemies
+// Number of prey eaten before enemy shows
+let startEnemyReq = 2;
+// How many enemies will be displayed
+let numberOfEnemies = 5;
+// An array to instance all the enemies
 let enemy = [];
 // How many preys will be displayed
 let numberOfPreys = 5;
@@ -17,9 +21,8 @@ let numberOfPreys = 5;
 let normalPrey = [];
 
 // Image files
-let imgPlayer, imgPrey;
+let imgPlayer, imgPrey, bgImg;
 let imgEnemy = [];
-
 // preload()
 //
 // Load the images
@@ -28,6 +31,7 @@ function preload() {
   imgPrey = loadImage("assets/images/cow.png");
   imgEnemy[0] = loadImage("assets/images/fbi.png");
   imgEnemy[1] = loadImage("assets/images/cia.png");
+  bgImg = loadImage("assets/images/background.png");
 }
 
 // setup()
@@ -35,15 +39,21 @@ function preload() {
 // Sets up a canvas
 // Creates objects for the predator and all preys
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1280, 720);
   mouseX = width / 2;
   mouseY = height / 2;
-  player = new Predator(mouseX, mouseY, 1, imgPlayer, 40);
+  player = new Predator(mouseX, mouseY, 1, imgPlayer, 50);
   laser = new Laser();
-  enemy[0] = new Enemy(width, height, 1, imgEnemy[0]);
+
   // Create all preys at once
   for (let i = 0; i < numberOfPreys; i++) {
-    normalPrey[i] = new Prey(random(0, width), random(0, height), random(3, 15), imgPrey, random(10, 80));
+    normalPrey[i] = new Prey(random(0, width), random(0, height), random(3, 15), imgPrey, random(20, 40));
+  }
+
+  // Create all enemies at once
+  for (let j = 0; j < numberOfEnemies; j++) {
+    enemy[j] = new Enemy();
+    enemy[j].prepare();
   }
 }
 
@@ -51,8 +61,8 @@ function setup() {
 //
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
-  // Clear the background to black
-  background(255);
+  // Set the background
+  image(bgImg, 0, 0);
   for (let i = 0; i < numberOfPreys; i++) {
     // Move all preys
     normalPrey[i].move();
@@ -64,18 +74,25 @@ function draw() {
   // Shoot the laser when the mouse is pressed and lock player movement
   if (mouseIsPressed) {
     laser.shoot(color(random(200, 255), random(10, 60), 0));
-    // Check if the laser hits the enemy
-    laser.checkTargetHit(enemy[0]);
+    for (let j = 0; j < numberOfEnemies; j++) {
+      // Check if the laser hits an enemy
+      laser.checkTargetHit(enemy[j]);
+    }
   } else {
     // Move the player
     player.move();
   }
   // Display the player
   player.display();
-  // Display the enemy
-  enemy[0].display();
-  // Make enemy chase player
-  enemy[0].chase(player);
+  // Enemy appears at certain score
+  if (player.score >= startEnemyReq) {
+    for (let j = 0; j < numberOfEnemies; j++) {
+      // Display the enemies
+      enemy[j].display();
+      // Make enemies chase player
+      enemy[j].chase(player);
+    }
+  }
 }
 
 // mousePressed

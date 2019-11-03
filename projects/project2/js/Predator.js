@@ -27,6 +27,8 @@ class Predator {
     // Variables to calculate distance between mouse and player
     this.distToMouseX;
     this.distToMouseY;
+    // Score
+    this.score = 0;
   }
 
   // -- Since I set the controller to be the bouse position, I got rid of the handleInput method
@@ -65,7 +67,7 @@ class Predator {
   handleEating(prey) {
     // Calculate distance from this predator to the prey
     let d = dist(this.x, this.y, prey.x, prey.y);
-    // Check if the distance is less than their two radii (an overlap)
+    // Check if the distance is less than their two radius (an overlap)
     if (d < this.radius + prey.radius) {
       // Increase predator health and constrain it to its possible range
       this.health += this.healthGainPerEat;
@@ -75,6 +77,8 @@ class Predator {
       // Check if the prey died and reset it if so
       if (prey.health < 0) {
         prey.reset();
+        // Increase score
+        this.score++;
       }
     }
   }
@@ -86,9 +90,12 @@ class Predator {
   display() {
     push();
     imageMode(CENTER);
-    this.radius = this.health;
-    // This conditional fixes the glitch when image size is 0
-    if (this.radius > 0) image(this.image, this.x, this.y, this.radius * 2, this.radius * 2);
+    image(this.image, this.x, this.y, this.radius * 2, this.radius * 2);
+    noStroke();
+    fill(255, 150);
+    rect(this.x - this.maxHealth, this.y + 8 + this.maxHealth, this.maxHealth * 2, 10);
+    fill(255);
+    rect(this.x - this.maxHealth, this.y + 8 + this.maxHealth, this.health * 2, 10);
     pop();
   }
 }
