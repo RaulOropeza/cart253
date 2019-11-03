@@ -10,7 +10,7 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius) {
+  constructor(x, y, speed, image, radius) {
     // Position
     this.x = x;
     this.y = y;
@@ -22,8 +22,8 @@ class Predator {
     this.healthLossPerMove = 0.1;
     this.healthGainPerEat = 1;
     // Display properties
-    this.fillColor = fillColor;
     this.radius = this.health; // Radius is defined in terms of health
+    this.image = image;
     // Variables to calculate distance between mouse and player
     this.distToMouseX;
     this.distToMouseY;
@@ -85,10 +85,10 @@ class Predator {
   // with a radius the same size as its current health.
   display() {
     push();
-    noStroke();
-    fill(this.fillColor);
+    imageMode(CENTER);
     this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
+    // This conditional fixes the glitch when image size is 0
+    if (this.radius > 0) image(this.image, this.x, this.y, this.radius * 2, this.radius * 2);
     pop();
   }
 }

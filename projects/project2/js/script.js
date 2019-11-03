@@ -7,13 +7,28 @@
 
 // Our predator
 let player;
-
+// The deadly laser
+let laser;
+// The enemies
+let enemy = [];
 // How many preys will be displayed
 let numberOfPreys = 5;
 // An array to instance all the preys
 let normalPrey = [];
 
-let laser;
+// Image files
+let imgPlayer, imgPrey;
+let imgEnemy = [];
+
+// preload()
+//
+// Load the images
+function preload() {
+  imgPlayer = loadImage("assets/images/ufo.png");
+  imgPrey = loadImage("assets/images/cow.png");
+  imgEnemy[0] = loadImage("assets/images/fbi.png");
+  imgEnemy[1] = loadImage("assets/images/cia.png");
+}
 
 // setup()
 //
@@ -23,12 +38,12 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   mouseX = width / 2;
   mouseY = height / 2;
-  player = new Predator(mouseX, mouseY, 1, color(255, 255, 0), 40);
+  player = new Predator(mouseX, mouseY, 1, imgPlayer, 40);
   laser = new Laser();
-  enemy = new Enemy(width, height, 1);
+  enemy[0] = new Enemy(width, height, 1, imgEnemy[0]);
   // Create all preys at once
   for (let i = 0; i < numberOfPreys; i++) {
-    normalPrey[i] = new Prey(random(0, width), random(0, height), random(5, 30), color(random(0, 255), random(0, 255), random(0, 255)), random(10, 80));
+    normalPrey[i] = new Prey(random(0, width), random(0, height), random(3, 15), imgPrey, random(10, 80));
   }
 }
 
@@ -50,7 +65,7 @@ function draw() {
   if (mouseIsPressed) {
     laser.shoot(color(random(200, 255), random(10, 60), 0));
     // Check if the laser hits the enemy
-    laser.checkTargetHit(enemy);
+    laser.checkTargetHit(enemy[0]);
   } else {
     // Move the player
     player.move();
@@ -58,9 +73,9 @@ function draw() {
   // Display the player
   player.display();
   // Display the enemy
-  enemy.display();
+  enemy[0].display();
   // Make enemy chase player
-  enemy.chase(player);
+  enemy[0].chase(player);
 }
 
 // mousePressed

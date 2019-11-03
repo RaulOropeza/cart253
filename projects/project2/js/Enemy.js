@@ -9,7 +9,7 @@ class Enemy {
   //
   // Sets the initial values for the Enemy's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed) {
+  constructor(x, y, speed, image) {
     // Position
     this.x = x;
     this.y = y;
@@ -17,6 +17,8 @@ class Enemy {
     this.speed = speed;
     // Size
     this.radius = 20;
+    // Display
+    this.image = image;
   }
 
   // chase
@@ -38,10 +40,8 @@ class Enemy {
   // Draw the enemy
   display() {
     push();
-    ellipseMode(CENTER);
-    fill(random(10, 80));
-    noStroke();
-    ellipse(this.x, this.y, this.radius * 2);
+    imageMode(CENTER);
+    image(this.image, this.x, this.y, this.radius * 2, this.radius * 2);
     pop();
   }
 }

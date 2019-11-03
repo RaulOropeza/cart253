@@ -10,7 +10,7 @@ class Prey {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius) {
+  constructor(x, y, speed, image, radius) {
     // Position
     this.x = x;
     this.y = y;
@@ -25,7 +25,7 @@ class Prey {
     this.maxHealth = radius;
     this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
     // Display properties
-    this.fillColor = fillColor;
+    this.image = image;
     this.radius = this.health;
   }
 
@@ -55,15 +55,13 @@ class Prey {
     // Off the left or right
     if (this.x < 0) {
       this.x += width;
-    }
-    else if (this.x > width) {
+    } else if (this.x > width) {
       this.x -= width;
     }
     // Off the top or bottom
     if (this.y < 0) {
       this.y += height;
-    }
-    else if (this.y > height) {
+    } else if (this.y > height) {
       this.y -= height;
     }
   }
@@ -74,10 +72,9 @@ class Prey {
   // with a radius the same size as its current health.
   display() {
     push();
-    noStroke();
-    fill(this.fillColor);
+    imageMode(CENTER);
     this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
+    image(this.image, this.x, this.y, this.radius * 2, this.radius * 2);
     pop();
   }
 
