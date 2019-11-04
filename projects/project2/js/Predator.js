@@ -99,6 +99,7 @@ class Predator {
     push();
     imageMode(CENTER);
     image(this.image, this.x, this.y, this.radius * 2, this.radius * 2);
+    // Health bar
     noStroke();
     fill(255, 150);
     rect(this.x - this.maxHealth, this.y + 8 + this.maxHealth, this.maxHealth * 2, 10);

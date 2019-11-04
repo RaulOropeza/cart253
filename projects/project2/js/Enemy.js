@@ -27,6 +27,8 @@ class Enemy {
     this.radius = 20;
     // Display
     this.image = random(imgEnemy);
+    // Damage
+    this.damage = 0.5;
   }
 
   // chase
@@ -41,6 +43,14 @@ class Enemy {
     // Update position
     this.x += this.distToPlayerX * this.movementEasing;
     this.y += this.distToPlayerY * this.movementEasing;
+    // Chack player overlap
+    // Calculate distance from this enemy to the player
+    let d = dist(this.x, this.y, player.x, player.y);
+    // Check if the distance is less than their two radius (an overlap)
+    if (d < this.radius + player.radius) {
+      // Decrease player health by damage value
+      player.health -= this.damage;
+    }
   }
 
   // display

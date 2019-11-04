@@ -10,7 +10,7 @@ let player;
 // The deadly laser
 let laser;
 // Number of prey eaten before enemy shows
-let startEnemyReq = 2;
+let startEnemyReq = 0;
 // How many enemies will be displayed
 let numberOfEnemies = 5;
 // An array to instance all the enemies
