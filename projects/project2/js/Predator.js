@@ -42,6 +42,7 @@ class Predator {
   // Handles wrapping
   move() {
     // Set the ratio at which the player's movement will slow as it gets close to the cursor based on the current speed
+    this.speed = constrain(this.speed, 1, 10);
     this.movementEasing = map(this.speed, 0, 10, 0, 0.2);
     // Calculate distance between mouse position and the player
     this.distToMouseX = mouseX - this.x;
@@ -87,6 +88,8 @@ class Predator {
         prey.reset();
         // Increase score
         this.score++;
+        // Increase laser speed
+        laser.speed += 1;
       }
     }
   }

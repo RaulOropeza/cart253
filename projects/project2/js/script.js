@@ -43,7 +43,7 @@ function setup() {
   mouseX = width / 2;
   mouseY = height / 2;
   player = new Predator(mouseX, mouseY, 1, imgPlayer, 50);
-  laser = new Laser();
+  laser = new Laser(player);
 
   // Create all preys at once
   for (let i = 0; i < numberOfPreys; i++) {

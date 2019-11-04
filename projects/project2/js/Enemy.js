@@ -7,12 +7,19 @@
 class Enemy {
   // constructor
   //
-  //
-  constructor() {}
+  // Set default values
+  constructor() {
+    // Speed
+    this.speed = 1;
+    // Size
+    this.radius = 20;
+    // Damage
+    this.damage = 0.5;
+  }
 
   // prepare
   //
-  // Sets the initial values for the Enemy's properties
+  // Sets the values for when the enemy spawns
   // Either sets default values or uses the arguments provided
   prepare() {
     // Position
@@ -21,14 +28,10 @@ class Enemy {
     } while (this.x > 0 && this.x < width);
     this.y = random(0, height);
 
-    // Movement
-    this.speed = 1;
-    // Size
-    this.radius = 20;
     // Display
     this.image = random(imgEnemy);
-    // Damage
-    this.damage = 0.5;
+    // Increase speed
+    this.speed += 0.1;
   }
 
   // chase

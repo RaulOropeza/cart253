@@ -6,8 +6,12 @@
 class Laser {
   // constructor
   //
-  // In this class its as useful as a flat-earther's brain
-  constructor() {}
+  // Set the property for the predator and the speed
+  constructor(predator) {
+    this.predator = predator;
+    // Speed
+    this.speed = 1;
+  }
 
   // calibrate
   //
@@ -24,8 +28,6 @@ class Laser {
     this.currentY = originY;
     // Default color
     this.color = color(255, 0, 0);
-    // Speed
-    this.speed = 1;
   }
 
   // shoot
@@ -33,6 +35,7 @@ class Laser {
   // Display the laser along with its fancy animation
   shoot(color) {
     // Set the ratio at which the laser's movement will slow as it gets close to the its target based on the current speed
+    this.speed = constrain(this.speed, 1, 10);
     this.movementEasing = map(this.speed, 0, 10, 0, 0.25);
     // Calculate the distance between the current position of the laser and the target
     this.distToTargetX = this.targetX - this.currentX;
@@ -62,6 +65,8 @@ class Laser {
     if (this.currentX > enemy.x - enemy.radius && this.currentX < enemy.x + enemy.radius) {
       if (this.currentY > enemy.y - enemy.radius && this.currentY < enemy.y + enemy.radius) {
         enemy.prepare();
+        // Increase predator speed
+        this.predator.speed += 0.1;
       }
     }
   }
