@@ -29,6 +29,8 @@ class Predator {
     this.distToMouseY;
     // Score
     this.score = 0;
+    // Check if player's moving
+    this.isMoving = true;
   }
 
   // -- Since I set the controller to be the bouse position, I got rid of the handleInput method
@@ -44,12 +46,18 @@ class Predator {
     // Calculate distance between mouse position and the player
     this.distToMouseX = mouseX - this.x;
     this.distToMouseY = mouseY - this.y;
-    // Update position
-    this.x += this.distToMouseX * this.movementEasing;
-    this.y += this.distToMouseY * this.movementEasing;
     // Update health
     this.health = this.health - this.healthLossPerMove;
     this.health = constrain(this.health, 0, this.maxHealth);
+    // Stop movement with key pressed
+    if (!keyIsDown(17)) { // CTRL key
+      // Update position
+      this.x += this.distToMouseX * this.movementEasing;
+      this.y += this.distToMouseY * this.movementEasing;
+      this.isMoving = true;
+    } else {
+      this.isMoving = false;
+    }
   }
 
   // -- I got rid of the handleWrapping method too

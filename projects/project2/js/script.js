@@ -71,19 +71,6 @@ function draw() {
     // Display all preys
     normalPrey[i].display();
   }
-  // Shoot the laser when the mouse is pressed and lock player movement
-  if (mouseIsPressed) {
-    laser.shoot(color(random(200, 255), random(10, 60), 0));
-    for (let j = 0; j < numberOfEnemies; j++) {
-      // Check if the laser hits an enemy
-      laser.checkTargetHit(enemy[j]);
-    }
-  } else {
-    // Move the player
-    player.move();
-  }
-  // Display the player
-  player.display();
   // Enemy appears at certain score
   if (player.score >= startEnemyReq) {
     for (let j = 0; j < numberOfEnemies; j++) {
@@ -93,11 +80,24 @@ function draw() {
       enemy[j].chase(player);
     }
   }
+  // Shoot the laser when the mouse is pressed and player movement locked
+  if (mouseIsPressed && !player.isMoving) {
+    laser.shoot(color(random(200, 255), random(10, 60), 0));
+    for (let j = 0; j < numberOfEnemies; j++) {
+      // Check if the laser hits an enemy
+      laser.checkTargetHit(enemy[j]);
+    }
+  }
+  // Move the player
+  player.move();
+  // Display the player
+  player.display();
 }
 
 // mousePressed
 //
-// Calibrate the laser before shooting it
+// Mouse press instructions
 function mousePressed() {
-  laser.calibrate(player.x, player.y, mouseX, mouseY);
+  // Calibrate the laser before shooting it
+  if (!player.isMoving) laser.calibrate(player.x, player.y, mouseX, mouseY);
 }
