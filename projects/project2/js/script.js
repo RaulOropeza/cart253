@@ -10,28 +10,36 @@ let player;
 // The deadly laser
 let laser;
 // Number of prey eaten before enemy shows
-let startEnemyReq = 0;
+let startEnemyReq = 3;
 // How many enemies will be displayed
-let numberOfEnemies = 5;
+let numberOfEnemies = 8;
 // An array to instance all the enemies
 let enemy = [];
 // How many preys will be displayed
-let numberOfPreys = 5;
+let numberOfPreys = 10;
 // An array to instance all the preys
 let normalPrey = [];
-
 // Image files
 let imgPlayer, imgPrey, bgImg;
 let imgEnemy = [];
+// Interface control
+let currentScreen = 0;
+// Font
+let aileronSemiBold;
+let aileronBold;
+// Sound
+
 // preload()
 //
-// Load the images
+// Load the images, sounds and font
 function preload() {
   imgPlayer = loadImage("assets/images/ufo.png");
   imgPrey = loadImage("assets/images/cow.png");
   imgEnemy[0] = loadImage("assets/images/fbi.png");
   imgEnemy[1] = loadImage("assets/images/cia.png");
   bgImg = loadImage("assets/images/background.png");
+  aileronSemiBold = loadFont("assets/fonts/Aileron-SemiBold.otf");
+  aileronBold = loadFont("assets/fonts/Aileron-Bold.otf");
 }
 
 // setup()
@@ -61,8 +69,69 @@ function setup() {
 //
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
+  interfaceControl();
+}
+
+// interfaceControl
+//
+// Controls the current displayed screen
+function interfaceControl() {
+  switch (currentScreen) {
+    case 0:
+      startScreen();
+      break;
+    case 1:
+      playing();
+      break;
+    case 2:
+      gameOver();
+      break;
+  }
+}
+
+// startScreen
+//
+// Display the starting screen
+function startScreen() {
+  push();
+  background(255, 20, 20);
+  textAlign(CENTER, TOP);
+  textSize(250);
+  textFont(aileronSemiBold);
+  fill(255);
+  text("press enter", width * 0.491, -75);
+  textFont(aileronBold);
+  textAlign(RIGHT, TOP);
+  fill(0);
+  textSize(30);
+  text("you're an ufo\nmove with mouse\neat cows\nkill agents\nshoot with ctrl + click", width * 0.97, height * 0.27);
+  textAlign(LEFT, CENTER);
+  textSize(25);
+  //textFont(aileronSemiBold);
+  fill(255, 255);
+  text("your laser improves as you eat cows", width * 0.005, height * 0.83);
+  fill(255, 205);
+  text("you move faster as you kill agents", width * 0.005, height * 0.87);
+  fill(255, 155);
+  text("agents move faster with every respawn", width * 0.005, height * 0.91);
+  fill(255, 105);
+  text("game ends when you run out of health", width * 0.005, height * 0.95);
+  pop();
+  // Go to game screen
+  if (keyIsDown(13)) {
+    currentScreen = 1;
+    // Restart all values
+    setup();
+  }
+}
+
+// playing
+//
+// Play the game
+function playing() {
   // Set the background
-  image(bgImg, 0, 0);
+  background(0, 170, 100);
+  // image(bgImg, 0, 0);
   for (let i = 0; i < numberOfPreys; i++) {
     // Move all preys
     normalPrey[i].move();
@@ -94,10 +163,37 @@ function draw() {
   player.display();
 }
 
+// gameOver
+//
+// Display Game Over screen
+function gameOver() {
+  push();
+  background(150);
+  textAlign(CENTER, CENTER);
+  textFont(aileronSemiBold);
+  textSize(450);
+  fill(255);
+  text("game", width / 2, height * 0.1);
+  textSize(300);
+  fill(0);
+  text("over", width * 0.72, height * 0.48);
+  textSize(35);
+  fill(0);
+  text("you ate " + player.score + " cows", width * 0.83, height * 0.725);
+  textSize(18);
+  fill(250);
+  text("press f to start again", width * .858, height * .78);
+  pop();
+  // Return to start screen
+  if (keyIsDown(70)) {
+    currentScreen = 0;
+  }
+}
+
 // mousePressed
 //
 // Mouse press instructions
 function mousePressed() {
   // Calibrate the laser before shooting it
-  if (!player.isMoving) laser.calibrate(player.x, player.y, mouseX, mouseY);
+  if (!player.isMoving && currentScreen === 1) laser.calibrate(player.x, player.y, mouseX, mouseY);
 }

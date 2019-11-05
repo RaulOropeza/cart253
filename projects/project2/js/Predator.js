@@ -59,6 +59,10 @@ class Predator {
     } else {
       this.isMoving = false;
     }
+    // Game Over conditional
+    if (this.health <= 0) {
+      currentScreen = 2;
+    }
   }
 
   // -- I got rid of the handleWrapping method too
