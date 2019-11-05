@@ -37,8 +37,8 @@ class Laser {
   // Display the laser along with its fancy animation
   shoot(color) {
     // Set the ratio at which the laser's movement will slow as it gets close to the its target based on the current speed
-    this.speed = constrain(this.speed, 1, 10);
-    this.movementEasing = map(this.speed, 0, 10, 0, 0.25);
+    this.speed = constrain(this.speed, 1, 20);
+    this.movementEasing = map(this.speed, 0, 20, 0, 0.18);
     // Calculate the distance between the current position of the laser and the target
     this.distToTargetX = this.targetX - this.currentX;
     this.distToTargetY = this.targetY - this.currentY;

@@ -16,7 +16,7 @@ let numberOfEnemies = 8;
 // An array to instance all the enemies
 let enemy = [];
 // How many preys will be displayed
-let numberOfPreys = 10;
+let numberOfPreys = 8;
 // An array to instance all the preys
 let normalPrey = [];
 // Image files
