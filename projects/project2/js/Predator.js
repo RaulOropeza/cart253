@@ -94,6 +94,8 @@ class Predator {
         this.score++;
         // Increase laser speed
         laser.speed += 1;
+        // Play sound
+        sndScore.play();
       }
     }
   }

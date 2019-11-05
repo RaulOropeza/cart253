@@ -27,7 +27,10 @@ let currentScreen = 0;
 // Font
 let aileronSemiBold;
 let aileronBold;
-// Sound
+// Sounds
+let sndScore;
+let sndEnemyDeath;
+let sndLaser;
 
 // preload()
 //
@@ -40,6 +43,9 @@ function preload() {
   bgImg = loadImage("assets/images/background.png");
   aileronSemiBold = loadFont("assets/fonts/Aileron-SemiBold.otf");
   aileronBold = loadFont("assets/fonts/Aileron-Bold.otf");
+  sndScore = loadSound("assets/sounds/score.wav");
+  sndEnemyDeath = loadSound("assets/sounds/enemy_killed.wav");
+  sndLaser = loadSound("assets/sounds/laser.wav");
 }
 
 // setup()

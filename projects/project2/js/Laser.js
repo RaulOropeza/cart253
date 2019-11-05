@@ -28,6 +28,8 @@ class Laser {
     this.currentY = originY;
     // Default color
     this.color = color(255, 0, 0);
+    // Play laser sound
+    sndLaser.play();
   }
 
   // shoot
@@ -67,6 +69,8 @@ class Laser {
         enemy.prepare();
         // Increase predator speed
         this.predator.speed += 0.1;
+        // Playe enemy death sound
+        sndEnemyDeath.play();
       }
     }
   }
