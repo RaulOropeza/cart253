@@ -42,8 +42,8 @@ class Predator {
   // Handles wrapping
   move() {
     // Set the ratio at which the player's movement will slow as it gets close to the cursor based on the current speed
-    this.speed = constrain(this.speed, 1, 10);
-    this.movementEasing = map(this.speed, 0, 10, 0, 0.05);
+    this.speed = constrain(this.speed, 1, 20);
+    this.movementEasing = map(this.speed, 0, 20, 0, 0.055);
     // Calculate distance between mouse position and the player
     this.distToMouseX = mouseX - this.x;
     this.distToMouseY = mouseY - this.y;

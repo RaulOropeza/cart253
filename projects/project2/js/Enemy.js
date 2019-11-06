@@ -39,7 +39,8 @@ class Enemy {
   // Make the enemy follow the player
   chase(player) {
     // Set the ratio at which the enemy's movement will slow as it gets close to the player based on the current speed
-    this.movementEasing = map(this.speed, 0, 10, 0, 0.015);
+    this.speed = constrain(this.speed, 1, 20);
+    this.movementEasing = map(this.speed, 0, 20, 0, 0.015);
     // Calculate distance between enemy position and the player
     this.distToPlayerX = player.x - this.x;
     this.distToPlayerY = player.y - this.y;

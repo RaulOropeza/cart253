@@ -56,7 +56,7 @@ function setup() {
   createCanvas(1280, 720);
   mouseX = width / 2;
   mouseY = height / 2;
-  player = new Predator(mouseX, mouseY, 1, imgPlayer, 50);
+  player = new Predator(mouseX, mouseY, 2, imgPlayer, 50);
   laser = new Laser(player);
 
   // Create all preys at once
@@ -73,7 +73,7 @@ function setup() {
 
 // draw()
 //
-// Handles input, movement, eating, and displaying for the system's objects
+// Display the interface
 function draw() {
   interfaceControl();
 }
@@ -92,6 +92,8 @@ function interfaceControl() {
     case 2:
       gameOver();
       break;
+    default:
+      startScreen();
   }
 }
 
@@ -100,7 +102,7 @@ function interfaceControl() {
 // Display the starting screen
 function startScreen() {
   push();
-  background(255, 20, 20);
+  background(220, 25, 25);
   textAlign(CENTER, TOP);
   textSize(250);
   textFont(aileronSemiBold);
@@ -108,12 +110,11 @@ function startScreen() {
   text("press enter", width * 0.491, -75);
   textFont(aileronBold);
   textAlign(RIGHT, TOP);
-  fill(0);
+  fill(15);
   textSize(30);
   text("you're an ufo\nmove with mouse\neat cows\nkill agents\nshoot with ctrl + click", width * 0.97, height * 0.27);
   textAlign(LEFT, CENTER);
   textSize(25);
-  //textFont(aileronSemiBold);
   fill(255, 255);
   text("your laser improves as you eat cows", width * 0.005, height * 0.83);
   fill(255, 205);
@@ -190,7 +191,7 @@ function gameOver() {
   fill(250);
   text("press f to start again", width * .858, height * .78);
   pop();
-  // Return to start screen
+  // Return to start screen when key F is pressed
   if (keyIsDown(70)) {
     currentScreen = 0;
   }
