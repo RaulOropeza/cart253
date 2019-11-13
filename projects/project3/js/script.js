@@ -13,10 +13,16 @@ let sound;
 // Variable for amplitude
 let amp;
 
-// Visual tracker of sound amplitude (a square for now)
-let visualSoundX = 0;
+// Visual trackers of sound amplitude
+//
+// Square
+let visualSoundX;
 let visualSoundY;
 let visualSoundSize = 5;
+// Circle
+let visualSound2X;
+let visualSound2Y;
+let visualSound2Size;
 
 // preload()
 //
@@ -35,6 +41,9 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
+  visualSoundX = 0;
+  visualSound2X = width * 0.66;
+  visualSound2Y = width / 3;
   sound.play();
 }
 
@@ -44,11 +53,21 @@ function setup() {
 // Change y position in relation to amplitude
 
 function draw() {
-  fill(255);
   noStroke();
   let level = amp.getLevel();
   let visualSoundY = map(level, 0, 1, height, 0) - visualSoundSize;
+  let philCollins = map(level, 0, 0.2, 20, 255); // Named the variable like that because it sounds a lot like fillColor, or at least in my head it does
+
+  // Make the square fade away as amplitude decreases
+  fill(philCollins);
   rect(visualSoundX, visualSoundY, visualSoundSize, visualSoundSize);
   // Make position in x increase to kind of "track" sound
   visualSoundX++;
+
+  // A yellow sun-like circle
+  fill(255, 255, 180);
+  stroke(0);
+  ellipseMode(CENTER);
+  visualSound2Size = map(level, 0, 0.2, 50, 100);
+  ellipse(visualSound2X, visualSound2Y, visualSound2Size, visualSound2Size);
 }
