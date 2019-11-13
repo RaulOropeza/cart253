@@ -41,7 +41,7 @@ function setup() {
 
 // draw()
 //
-// Description of draw()
+// Change y position in relation to amplitude
 
 function draw() {
   fill(255);
