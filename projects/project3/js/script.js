@@ -1,73 +1,69 @@
 /*****************
 
-Song Jumper
+Song Drifter
 by Raúl Oropeza
 
 For now is just a basic graphical representation
 of a sample sound amplitude.
 
 ******************/
-// Variable for sample sound
-let sound;
 
-// Variable for amplitude
-let amp;
-
-// Visual trackers of sound amplitude
-//
-// Square
-let visualSoundX;
-let visualSoundY;
-let visualSoundSize = 5;
-// Circle
-let visualSound2X;
-let visualSound2Y;
-let visualSound2Size;
-
-// preload()
-//
-// Load sound and create object for amplitude
+let player = {
+  angle: 0,
+  speed: 6,
+  x: 0,
+  y: 0,
+}
 
 function preload() {
-  sound = loadSound("assets/sounds/sample.wav");
-  amp = new p5.Amplitude();
+
 }
 
-
-// setup()
-//
-// Play sound and set the position in X
-
+// Create canvas and set initial position of the player
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background(0);
-  visualSoundX = 0;
-  visualSound2X = width * 0.66;
-  visualSound2Y = width / 3;
-  sound.play();
+  createCanvas(500, 500);
+  player.x = 80;
+  player.y = height / 2;
+
 }
 
 
-// draw()
-//
-// Change y position in relation to amplitude
-
+// Call all functions
 function draw() {
+  background(0);
+  handleInput();
+  moveplayer();
+  drawplayer();
+}
+
+// Determine where the player is going to move
+function handleInput() {
+  // Only vertical movement
+  if (keyIsDown(UP_ARROW)) {
+    player.angle -= 0.1;
+  } else if (keyIsDown(DOWN_ARROW)) {
+    player.angle += 0.1;
+  }
+  // Constrain angle to the positive x axis
+  player.angle = constrain(player.angle, -0.8, 0.8);
+}
+
+// Move the player towards the current direction
+function moveplayer() {
+  // The magic lines for calculating velocity!
+  let vy = player.speed * sin(player.angle);
+  player.y += vy;
+}
+
+// Draw the player as a yellow triangle
+function drawplayer() {
+  push();
+  translate(player.x, player.y);
+  rotate(player.angle);
   noStroke();
-  let level = amp.getLevel();
-  let visualSoundY = map(level, 0, 1, height, 0) - visualSoundSize;
-  let philCollins = map(level, 0, 0.2, 20, 255); // Named the variable like that because it sounds a lot like fillColor, or at least in my head it does
-
-  // Make the square fade away as amplitude decreases
-  fill(philCollins);
-  rect(visualSoundX, visualSoundY, visualSoundSize, visualSoundSize);
-  // Make position in x increase to kind of "track" sound
-  visualSoundX++;
-
-  // A yellow sun-like circle
-  fill(255, 255, 180);
-  stroke(0);
-  ellipseMode(CENTER);
-  visualSound2Size = map(level, 0, 0.2, 50, 100);
-  ellipse(visualSound2X, visualSound2Y, visualSound2Size, visualSound2Size);
+  fill(255, 255, 0);
+  triangle(0, 0, -45, -25, -45, 25); // The anchor point is on the first point (0, 0)
+  fill(0);
+  triangle(-4, 0, -42, -20, -42, 20);
+  pop();
 }
