@@ -62,8 +62,8 @@ function drawplayer() {
   rotate(player.angle);
   noStroke();
   fill(255, 255, 0);
-  triangle(0, 0, -45, -25, -45, 25); // The anchor point is on the first point (0, 0)
+  triangle(-20, -25, -20, 25, 25, 0);
   fill(0);
-  triangle(-4, 0, -42, -20, -42, 20);
+  triangle(-17, -20, -17, 20, 19, 0);
   pop();
 }
