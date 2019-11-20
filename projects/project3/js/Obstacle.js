@@ -1,20 +1,16 @@
 class Obstacle {
-  constructor(x, y, width, height) {
+  constructor(x, y, width, height, color) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.speed = 2;
-  }
-
-  move() {
-    this.x -= this.speed;
+    this.color = color;
   }
 
   display() {
     push();
     rectMode(CENTER);
-    fill(255);
+    fill(this.color);
     rect(this.x, this.y, this.width, this.height);
     pop();
   }
