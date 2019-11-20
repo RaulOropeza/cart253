@@ -15,6 +15,7 @@ let player = {
   x: 0,
   y: 0,
 }
+
 let distToMouseY;
 
 // Variables for sound
@@ -47,12 +48,15 @@ function setup() {
 // Call all functions
 function draw() {
   background(0);
-  drawplayer();
   displaySound();
+  drawplayer();
+
   if (!pause) {
+    // Game playing
     handleInput();
     moveplayer();
   } else {
+    // Game paused
     push();
     textAlign(CENTER, CENTER);
     fill(255);
@@ -66,40 +70,18 @@ function draw() {
 function displaySound() {
   for (let i = 0; i < obstacles.length; i++) {
     obstacles[i].display();
+    obstacles[i].checkCollision();
     if (!pause) obstacles[i].x--;
   }
-
-  /*vol = amp.getLevel();
-  rectMode(CORNER);
-  stroke(255);
-  fill(255, 100, 100);
-  waveSpeed--;
-  for (let i = 0; i < volumeHistory.length; i++) {
-    volumeHistory[i];
-    // Calculate X position substracting i to width to make it move from right to left
-    obstacleX[i] = width + i + waveSpeed;
-    let rectHeight = map(volumeHistory[i], 0, 1, 0, height);
-
-    rect(x, height, 10, -rectHeight);
-
-    // Overwrite the array from the begining
-    if (obstacleX[i] < 0) {
-      volumeHistory.splice(0, 1);
-    }
-
-  }
-
-
-  //ellipse(width / 2, height / 2, vol * 200, vol * 200);*/
 }
 
 // Create a new obstacle every certain time
 window.setInterval(function() {
   // Set the initial values for the new object
   let obstacleX = width;
-  let obstacleHeight = map(amp.getLevel(), 0, 0.5, 0, height);
+  let obstacleHeight = map(amp.getLevel(), 0, 1, 0, height);
   // Create the new object
-  let newObstacle = new Obstacle(obstacleX, height, 10, obstacleHeight, color(random(180, 255), 50, random(180, 255)));
+  let newObstacle = new Obstacle(obstacleX, height, 10, -obstacleHeight, color(random(180, 255), 50, random(180, 255)));
   // Add the new object to the array
   obstacles.push(newObstacle);
   // Prevent array from getting bigger than needed
