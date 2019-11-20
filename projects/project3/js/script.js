@@ -24,6 +24,8 @@ let volumeHistory = [];
 let obstacles = [];
 let waveSpeed = 0;
 
+let pause = true;
+
 let x;
 let vol;
 
@@ -45,17 +47,26 @@ function setup() {
 // Call all functions
 function draw() {
   background(0);
-  handleInput();
-  moveplayer();
   drawplayer();
   displaySound();
+  if (!pause) {
+    handleInput();
+    moveplayer();
+  } else {
+    push();
+    textAlign(CENTER, CENTER);
+    fill(255);
+    textSize(24);
+    text("CLICK TO PLAY", width / 2, height / 2);
+    pop();
+  }
 }
 
 // Interact with sound
 function displaySound() {
   for (let i = 0; i < obstacles.length; i++) {
     obstacles[i].display();
-    obstacles[i].x--;
+    if (!pause) obstacles[i].x--;
   }
 
   /*vol = amp.getLevel();
@@ -127,16 +138,13 @@ function drawplayer() {
   pop();
 }
 
-// Toogle song on and off
-function toggleSong() {
-  if (song.isPlaying()) {
-    song.pause();
-  } else {
-    song.play();
-  }
-}
-
 // Instructions for when mouse is pressed
 function mousePressed() {
-  toggleSong();
+  if (pause) {
+    pause = false;
+    song.play();
+  } else {
+    pause = true;
+    song.pause();
+  }
 }
