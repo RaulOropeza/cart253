@@ -88,12 +88,12 @@ window.setInterval(function() {
   let obstacleX = width;
   let obstacleHeight = map(amp.getLevel(), 0, 0.5, 0, height);
   // Create the new object
-  let newObstacle = new Obstacle(obstacleX, height, 20, obstacleHeight, color(random(180, 255), 50, random(180, 255)));
+  let newObstacle = new Obstacle(obstacleX, height, 10, obstacleHeight, color(random(180, 255), 50, random(180, 255)));
   // Add the new object to the array
   obstacles.push(newObstacle);
   // Prevent array from getting bigger than needed
   if (obstacles[0].x < 0) obstacles.splice(0, 1);
-}, 700);
+}, 300);
 
 // Determine where the player is going to move
 function handleInput() {
