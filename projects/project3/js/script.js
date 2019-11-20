@@ -112,11 +112,11 @@ function drawplayer() {
   // It's easier for me to work with degrees
   angleMode(DEGREES);
   rotate(player.angle);
-  noStroke();
-  fill(255, 255, 0);
+  stroke(255);
+  strokeWeight(4);
+  noFill();
+  smooth();
   triangle(-20, -25, -20, 25, 25, 0);
-  fill(0);
-  triangle(-17, -20, -17, 20, 19, 0);
   pop();
 }
 
