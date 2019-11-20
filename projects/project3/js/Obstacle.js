@@ -10,6 +10,7 @@ class Obstacle {
   display() {
     push();
     rectMode(CENTER);
+    noStroke();
     fill(this.color);
     rect(this.x, this.y, this.width, this.height);
     pop();

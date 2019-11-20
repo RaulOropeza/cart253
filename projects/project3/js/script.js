@@ -57,6 +57,7 @@ function displaySound() {
     obstacles[i].display();
     obstacles[i].x--;
   }
+
   /*vol = amp.getLevel();
   rectMode(CORNER);
   stroke(255);
@@ -90,6 +91,8 @@ window.setInterval(function() {
   let newObstacle = new Obstacle(obstacleX, height, 20, obstacleHeight, color(random(180, 255), 50, random(180, 255)));
   // Add the new object to the array
   obstacles.push(newObstacle);
+  // Prevent array from getting bigger than needed
+  if (obstacles[0].x < 0) obstacles.splice(0, 1);
 }, 700);
 
 // Determine where the player is going to move
