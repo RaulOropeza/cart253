@@ -16,7 +16,16 @@ class Obstacle {
   }
 
   // Check if the player has crashed with an obstacle
-  checkCollision() {
+  checkCollisionOne() {
+    if (player.x > this.x && player.x < this.x + this.width) {
+      if (player.y > this.y && player.y < this.y + this.height) {
+        console.log("Oopsie doopsie!");
+      }
+    }
+  }
+
+  // Check if the player has crashed with an obstacle
+  checkCollisionTwo() {
     if (player.x > this.x && player.x < this.x + this.width) {
       if (player.y < this.y && player.y > this.y + this.height) {
         console.log("Oopsie doopsie!");

@@ -22,15 +22,14 @@ let distToMouseY;
 let song;
 let amp;
 let volumeHistory = [];
-let obstacles = [];
+let obstaclesOne = [];
+let obstaclesTwo = [];
 let waveSpeed = 0;
 
 let pause = true;
 
-let x;
-let vol;
-
 function preload() {
+  //song = loadSound("assets/sounds/The Dark Side.mp3");
   song = loadSound("assets/sounds/Algorithm.mp3");
   amp = new p5.Amplitude();
 }
@@ -68,25 +67,50 @@ function draw() {
 
 // Interact with sound
 function displaySound() {
-  for (let i = 0; i < obstacles.length; i++) {
-    obstacles[i].display();
-    obstacles[i].checkCollision();
-    if (!pause) obstacles[i].x--;
+  for (let i = 0; i < obstaclesOne.length; i++) {
+    obstaclesOne[i].display();
+    obstaclesOne[i].checkCollisionOne();
+    if (!pause) obstaclesOne[i].x--;
+  }
+
+  for (let i = 0; i < obstaclesTwo.length; i++) {
+    obstaclesTwo[i].display();
+    obstaclesTwo[i].checkCollisionTwo();
+    if (!pause) obstaclesTwo[i].x--;
   }
 }
 
 // Create a new obstacle every certain time
 window.setInterval(function() {
+  /*--------------------------
+  First set of obstacles
+  --------------------------*/
+
   // Set the initial values for the new object
-  let obstacleX = width;
-  let obstacleHeight = map(amp.getLevel(), 0, 1, 0, height);
+  let obstacleOneX = width;
+  let obstacleOneHeight = map(amp.getLevel(), 1, 0, 0, height) - 100;
   // Create the new object
-  let newObstacle = new Obstacle(obstacleX, height, 10, -obstacleHeight, color(random(180, 255), 50, random(180, 255)));
+  let newObstacleOne = new Obstacle(obstacleOneX, 0, 25, obstacleOneHeight, color(50, random(180, 255), random(180, 255)));
   // Add the new object to the array
-  obstacles.push(newObstacle);
+  obstaclesOne.push(newObstacleOne);
   // Prevent array from getting bigger than needed
-  if (obstacles[0].x < 0) obstacles.splice(0, 1);
-}, 300);
+  if (obstaclesOne[0].x < 0) obstaclesOne.splice(0, 1);
+}, 3000);
+window.setInterval(function() {
+  /*--------------------------
+  Second set of obstacles
+  --------------------------*/
+
+  // Set the initial values for the new object
+  let obstacleTwoX = width;
+  let obstacleTwoHeight = map(amp.getLevel(), 0, 1, 0, height);
+  // Create the new object
+  let newObstacleTwo = new Obstacle(obstacleTwoX, height, 25, -obstacleTwoHeight, color(random(180, 255), 50, random(180, 255)));
+  // Add the new object to the array
+  obstaclesTwo.push(newObstacleTwo);
+  // Prevent array from getting bigger than needed
+  if (obstaclesTwo[0].x < 0) obstaclesTwo.splice(0, 1);
+}, 3000);
 
 // Determine where the player is going to move
 function handleInput() {
