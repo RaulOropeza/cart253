@@ -21,6 +21,7 @@ let distToMouseY;
 // Variables for sound
 let song;
 let amp;
+let fft, peakDetect;
 let volumeHistory = [];
 let obstaclesOne = [];
 let obstaclesTwo = [];
@@ -30,7 +31,7 @@ let pause = true;
 
 function preload() {
   //song = loadSound("assets/sounds/The Dark Side.mp3");
-  song = loadSound("assets/sounds/Algorithm.mp3");
+  song = loadSound("assets/sounds/The Dark Side.mp3");
   amp = new p5.Amplitude();
 }
 
@@ -41,15 +42,16 @@ function setup() {
   player.y = height / 2;
   mouseY = height / 2;
   testRect = new Obstacle(width, height, 10, 0);
+  fft = new p5.FFT(0.9);
+  fft.setInput(song);
 }
-
 
 // Call all functions
 function draw() {
-  background(0);
+  background(10, 20, 40);
   displaySound();
+  testWaveform();
   drawplayer();
-
   if (!pause) {
     // Game playing
     handleInput();
@@ -141,6 +143,27 @@ function drawplayer() {
   noFill();
   smooth();
   triangle(-20, -25, -20, 25, 25, 0);
+  pop();
+}
+
+function testWaveform() {
+  let wave = fft.analyze();
+  push();
+  rectMode(CENTER);
+  beginShape();
+  vertex(width, 0);
+  for (i = 0; i < wave.length; i++) {
+    noStroke();
+    fill(130, 240, 255, 70);
+    rect(i, 0, 5, map(wave[i], -0, 255, 0, 200), 20);
+    //rect(map(i, 0, width, width, 0), 0, 5, map(wave[i], 0, 255, 0, 150), 20);
+
+    fill(240, 130, 255, 70);
+    //rect(i, height, 5, map(wave[i], -0, 255, 0, 200), 20);
+    rect(map(i, 0, width, width, 0), height, 5, map(wave[i], 0, 255, 0, 200), 20);
+  }
+  vertex(width, height);
+  endShape();
   pop();
 }
 
