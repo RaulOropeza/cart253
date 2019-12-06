@@ -8,15 +8,7 @@ of a sample sound amplitude.
 
 ******************/
 
-let player = {
-  angle: 0,
-  speed: 6,
-  angleIncrement: 0.1,
-  x: 0,
-  y: 0,
-}
-
-let distToMouseY;
+let player;
 
 // Variables for sound
 let song;
@@ -38,8 +30,7 @@ function preload() {
 // Create canvas and set initial position of the player
 function setup() {
   createCanvas(500, 500);
-  player.x = 50;
-  player.y = height / 2;
+  player = new Player(50, height / 2, 6);
   mouseY = height / 2;
   testRect = new Obstacle(width, height, 10, 0);
   fft = new p5.FFT(0.9);
@@ -51,11 +42,11 @@ function draw() {
   background(10, 20, 40);
   displaySound();
   testWaveform();
-  drawplayer();
+  player.display();
   if (!pause) {
     // Game playing
-    handleInput();
-    moveplayer();
+    player.handleInput();
+    player.movePlayer();
   } else {
     // Game paused
     push();
@@ -113,38 +104,6 @@ window.setInterval(function() {
   // Prevent array from getting bigger than needed
   if (obstaclesTwo[0].x < 0) obstaclesTwo.splice(0, 1);
 }, 3000);
-
-// Determine where the player is going to move
-function handleInput() {
-  // Limit the mouse variable to stay within the canvas
-  mouseY = constrain(mouseY, 0, height);
-  // Calculate the distance between mouse Y position and the player
-  distToMouseY = mouseY - player.y;
-  // Transform the angle of rotation based on how far the mouse is from the player
-  player.angle = map(distToMouseY, -height / 2, height / 2, -60, 60);
-}
-
-// Move the player towards the current direction
-function moveplayer() {
-  // The magic lines for calculating velocity!
-  let vy = player.speed * sin(player.angle);
-  player.y += vy;
-}
-
-// Draw the player as a yellow triangle
-function drawplayer() {
-  push();
-  translate(player.x, player.y);
-  // It's easier for me to work with degrees
-  angleMode(DEGREES);
-  rotate(player.angle);
-  stroke(255);
-  strokeWeight(4);
-  noFill();
-  smooth();
-  triangle(-20, -25, -20, 25, 25, 0);
-  pop();
-}
 
 function testWaveform() {
   let wave = fft.analyze();
