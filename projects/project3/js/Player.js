@@ -6,10 +6,12 @@
 
 class Player {
   // Default values for each obstacle
-  constructor(x, y, speed) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.speed = speed;
+    this.velocity = 0;
+    this.gravity = 0.4;
+    this.lift = -10;
     this.angle = 0;
     this.angleIncrement = 0.1;
     this.distToMouseY;
@@ -18,26 +20,51 @@ class Player {
   // Determine where the player is going to move
   handleInput() {
     // Limit the mouse variable to stay within the canvas
-    mouseY = constrain(mouseY, 0, height);
+    //mouseY = constrain(mouseY, 0, height);
+
+
     // Calculate the distance between mouse Y position and the player
-    this.distToMouseY = mouseY - player.y;
+    //this.distToMouseY = mouseY - this.y;
     // Transform the angle of rotation based on how far the mouse is from the player
-    player.angle = map(this.distToMouseY, -height / 2, height / 2, -60, 60);
+    //this.angle = map(this.distToMouseY, -height / 2, height / 2, -60, 60);
+
+    /*this.angle++;
+    this.angle = constrain(this.angle, -60, 90);*/
+  }
+
+  liftPlayer() {
+    this.velocity += this.lift;
   }
 
   // Move the player towards the current direction
   movePlayer() {
-    let vy = player.speed * sin(player.angle);
-    player.y += vy;
+    this.velocity += this.gravity;
+    this.y += this.velocity;
+
+    this.y = constrain(this.y, 0, height);
+    this.velocity = constrain(this.velocity, -10, 10);
+    console.log(this.velocity);
+
+    if (this.y > height) {
+      //this.y = height;
+      this.velocity = 0;
+    }
+
+    if (this.y < 0) {
+      //this.y = 0;
+      this.velocity = 0;
+    }
+    /*let vy = this.velocity * this.angle;
+    this.y *= 1.02;*/
   }
 
   // Display the player
   display() {
     push();
-    translate(player.x, player.y);
+    translate(this.x, this.y);
     // It's easier for me to work with degrees
     angleMode(DEGREES);
-    rotate(player.angle);
+    rotate(this.angle);
     stroke(255);
     strokeWeight(4);
     noFill();

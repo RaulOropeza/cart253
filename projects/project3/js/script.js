@@ -22,15 +22,15 @@ let waveSpeed = 0;
 let pause = true;
 
 function preload() {
-  //song = loadSound("assets/sounds/The Dark Side.mp3");
   song = loadSound("assets/sounds/The Dark Side.mp3");
+  //song = loadSound("assets/sounds/Algorithm.mp3");
   amp = new p5.Amplitude();
 }
 
 // Create canvas and set initial position of the player
 function setup() {
   createCanvas(500, 500);
-  player = new Player(50, height / 2, 6);
+  player = new Player(50, height / 2);
   mouseY = height / 2;
   testRect = new Obstacle(width, height, 10, 0);
   fft = new p5.FFT(0.9);
@@ -41,11 +41,10 @@ function setup() {
 function draw() {
   background(10, 20, 40);
   displaySound();
-  testWaveform();
+  soundDisplay();
   player.display();
   if (!pause) {
     // Game playing
-    player.handleInput();
     player.movePlayer();
   } else {
     // Game paused
@@ -73,39 +72,35 @@ function displaySound() {
   }
 }
 
-// Create a new obstacle every certain time
-window.setInterval(function() {
-  /*--------------------------
-  First set of obstacles
-  --------------------------*/
-
-  // Set the initial values for the new object
+/*--------------------------
+First set of obstacles
+--------------------------*/
+window.setInterval(function() { // Create a new obstacle every certain time
+  // Set the initial values for the new obstacle
   let obstacleOneX = width;
   let obstacleOneHeight = map(amp.getLevel(), 1, 0, 0, height) - 100;
   // Create the new object
-  let newObstacleOne = new Obstacle(obstacleOneX, 0, 25, obstacleOneHeight, color(50, random(180, 255), random(180, 255)));
+  let newObstacleOne = new Obstacle(obstacleOneX, 0, 60, obstacleOneHeight, color(50, random(180, 255), random(180, 255)));
   // Add the new object to the array
   obstaclesOne.push(newObstacleOne);
   // Prevent array from getting bigger than needed
   if (obstaclesOne[0].x < 0) obstaclesOne.splice(0, 1);
-}, 3000);
-window.setInterval(function() {
+
   /*--------------------------
   Second set of obstacles
   --------------------------*/
-
-  // Set the initial values for the new object
+  // Set the initial values for the new obstacle
   let obstacleTwoX = width;
   let obstacleTwoHeight = map(amp.getLevel(), 0, 1, 0, height);
   // Create the new object
-  let newObstacleTwo = new Obstacle(obstacleTwoX, height, 25, -obstacleTwoHeight, color(random(180, 255), 50, random(180, 255)));
+  let newObstacleTwo = new Obstacle(obstacleTwoX, height, 60, -obstacleTwoHeight, color(random(180, 255), 50, random(180, 255)));
   // Add the new object to the array
   obstaclesTwo.push(newObstacleTwo);
   // Prevent array from getting bigger than needed
   if (obstaclesTwo[0].x < 0) obstaclesTwo.splice(0, 1);
-}, 3000);
+}, 5000);
 
-function testWaveform() {
+function soundDisplay() {
   let wave = fft.analyze();
   push();
   rectMode(CENTER);
@@ -135,4 +130,11 @@ function mousePressed() {
     pause = true;
     song.pause();
   }
+}
+
+function keyPressed() {
+  if (keyCode === LEFT_ARROW) {
+    player.liftPlayer();
+  }
+  //return false;
 }
