@@ -17,8 +17,8 @@ class Obstacle {
 
   // Check if the player has crashed with an obstacle
   checkCollisionOne() {
-    if (player.x > this.x && player.x < this.x + this.width) {
-      if (player.y > this.y && player.y < this.y + this.height) {
+    if (player.x + player.size / 2 > this.x && player.x - player.size / 2 < this.x + this.width) {
+      if (player.y + player.size / 2 > this.y && player.y - player.size / 2 < this.y + this.height) {
         console.log("Oopsie doopsie!");
       }
     }
@@ -26,8 +26,8 @@ class Obstacle {
 
   // Check if the player has crashed with an obstacle
   checkCollisionTwo() {
-    if (player.x > this.x && player.x < this.x + this.width) {
-      if (player.y < this.y && player.y > this.y + this.height) {
+    if (player.x + player.size / 2 > this.x && player.x - player.size / 2 < this.x + this.width) {
+      if (player.y - player.size / 2 < this.y && player.y + player.size / 2 > this.y + this.height) {
         console.log("Oopsie doopsie!");
       }
     }
