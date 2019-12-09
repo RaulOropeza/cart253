@@ -19,7 +19,7 @@ class Obstacle {
   checkCollisionOne() {
     if (player.x + player.size / 2 > this.x && player.x - player.size / 2 < this.x + this.width) {
       if (player.y + player.size / 2 > this.y && player.y - player.size / 2 < this.y + this.height) {
-        console.log("Oopsie doopsie!");
+        currentState = 1;
       }
     }
   }
@@ -28,7 +28,7 @@ class Obstacle {
   checkCollisionTwo() {
     if (player.x + player.size / 2 > this.x && player.x - player.size / 2 < this.x + this.width) {
       if (player.y - player.size / 2 < this.y && player.y + player.size / 2 > this.y + this.height) {
-        console.log("Oopsie doopsie!");
+        currentState = 1;
       }
     }
   }
