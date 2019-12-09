@@ -17,7 +17,7 @@ class Player {
   constructor(x, y, size, imagePath) {
     this.x = x;
     this.y = y;
-    this.size = size;
+    this.size = ssize;
     this.velocity = 0;
     this.gravity = 0.8;
     this.lift = -20;
