@@ -30,7 +30,7 @@ class Player {
 
   // Move the player towards the current direction
   movePlayer() {
-    // Keep playern on canvas and make it fall
+    // Keep player on canvas and make it fall
     this.velocity += this.gravity;
     this.velocity *= 0.9;
     this.y += this.velocity;
